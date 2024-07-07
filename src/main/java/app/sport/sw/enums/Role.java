@@ -1,7 +1,16 @@
 package app.sport.sw.enums;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@Getter
+@AllArgsConstructor
 public enum Role {
 
-    ROLE_OWNER,
-    ROLE_USER
+    USER("ROLE_USER", "사용자"),
+    ADMIN("ROLE_ADMIN", "관리자");
+
+    private final String roleName;
+    private final String title;
+
 }

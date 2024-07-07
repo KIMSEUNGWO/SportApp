@@ -1,7 +1,8 @@
 package app.sport.sw.domain.group;
 
 import app.sport.sw.domain.BaseEntityTime;
-import app.sport.sw.domain.user.Member;
+import app.sport.sw.domain.user.User;
+import app.sport.sw.enums.Authority;
 import app.sport.sw.enums.Role;
 import jakarta.persistence.*;
 
@@ -19,8 +20,8 @@ public class UserClub extends BaseEntityTime {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MEMBER_ID")
-    private Member member;
+    private User user;
 
     @Enumerated(EnumType.STRING)
-    private Role role;
+    private Authority authority;
 }

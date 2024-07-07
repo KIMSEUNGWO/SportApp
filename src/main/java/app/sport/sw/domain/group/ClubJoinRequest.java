@@ -1,7 +1,7 @@
 package app.sport.sw.domain.group;
 
 import app.sport.sw.domain.BaseEntityTime;
-import app.sport.sw.domain.user.Member;
+import app.sport.sw.domain.user.User;
 import jakarta.persistence.*;
 
 @Entity
@@ -18,7 +18,7 @@ public class ClubJoinRequest extends BaseEntityTime {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_ID")
-    private Member member;
+    private User user;
 
     private String message;
 }
