@@ -15,4 +15,6 @@ public class SocialLoginDto {
     private String socialId;
     @NotNull
     private SocialProvider provider;
+    @NotNull
+    private String accessToken;
 }

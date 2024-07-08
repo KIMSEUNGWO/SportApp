@@ -3,6 +3,8 @@ package app.sport.sw.domain.user;
 import app.sport.sw.domain.BaseEntityTime;
 import app.sport.sw.domain.group.ClubJoinRequest;
 import app.sport.sw.domain.group.UserClub;
+import app.sport.sw.domain.group.board.Board;
+import app.sport.sw.domain.group.board.Comment;
 import app.sport.sw.enums.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -20,16 +22,23 @@ import java.util.List;
 @NoArgsConstructor
 public class User extends BaseEntityTime {
 
+    @Getter
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "USER_ID") @Getter
+    @Column(name = "USER_ID")
     private long id;
 
     private String nickName;
 
-    @Embedded @Getter
+    @Getter
+    @Embedded
+    private UserInfo userInfo;
+
+    @Getter
+    @Embedded
     private UserSocial userSocial;
 
-    @Enumerated(EnumType.STRING) @Getter
+    @Getter
+    @Enumerated(EnumType.STRING)
     private Role role;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -42,10 +51,11 @@ public class User extends BaseEntityTime {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<ClubJoinRequest> clubJoinRequestList = new ArrayList<>();
 
+    @OneToMany(mappedBy = "user")
+    private List<Board> clubBoardList = new ArrayList<>();
 
-    public void setRefreshToken(String refreshToken) {
-        userSocial.setRefreshToken(refreshToken);
-    }
+    @OneToMany(mappedBy = "user")
+    private List<Comment> comments = new ArrayList<>();
 
     public void setAccessToken(String accessToken) {
         userSocial.setAccessToken(accessToken);

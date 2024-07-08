@@ -16,10 +16,7 @@ public class UserSocial {
     private String socialId;
     @Enumerated(EnumType.STRING)
     private SocialProvider provider;
-
     @Setter
     private String accessToken;
-    @Setter
-    private String refreshToken;
 
 }

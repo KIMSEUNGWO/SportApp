@@ -2,7 +2,6 @@ package app.sport.sw.mvc.user;
 
 import app.sport.sw.dto.user.ResponseToken;
 import app.sport.sw.dto.user.SocialLoginDto;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -20,8 +19,8 @@ public class UserController {
         return ResponseEntity.ok(userService.socialLogin(loginDto));
     }
 
-    @PostMapping("/token")
-    public ResponseEntity<ResponseToken> refreshingAccessToken(HttpServletRequest request) {
-        return ResponseEntity.ok(userService.refreshingAccessToken(request));
-    }
+//    @PostMapping("/token")
+//    public ResponseEntity<ResponseToken> refreshingAccessToken(HttpServletRequest request) {
+//        return ResponseEntity.ok(userService.refreshingAccessToken(request));
+//    }
 }

@@ -1,7 +1,7 @@
 package app.sport.sw.domain.group.region;
 
-import app.sport.sw.enums.region.Location1;
-import app.sport.sw.enums.region.Location2;
+import app.sport.sw.enums.region.Region;
+import app.sport.sw.enums.region.ParentRegion;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -9,12 +9,12 @@ import lombok.Getter;
 
 @Embeddable
 @Getter
-public class Region {
+public class ClubRegion {
 
     @Enumerated(EnumType.STRING)
-    private Location1 location1;
+    private ParentRegion location1;
     @Enumerated(EnumType.STRING)
-    private Location2 location2;
+    private Region region;
 
 
 }

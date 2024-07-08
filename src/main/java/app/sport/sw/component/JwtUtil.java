@@ -73,16 +73,16 @@ public class JwtUtil {
 
     }
 
-    public void validateRefreshToken(String refreshToken) {
-        String refreshTokenInDB = userRepository.findByRefreshToken(refreshToken)
-            .map((user) -> user.getUserSocial().getRefreshToken())
-            .orElseThrow(() -> new TokenException(TokenError.TOKEN_EXPIRED));
-
-        if (isExpiredToken(refreshTokenInDB)) {
-            throw new TokenException(TokenError.TOKEN_EXPIRED);
-        }
-
-    }
+//    public void validateRefreshToken(String refreshToken) {
+//        String refreshTokenInDB = userRepository.findByRefreshToken(refreshToken)
+//            .map((user) -> user.getUserSocial().getRefreshToken())
+//            .orElseThrow(() -> new TokenException(TokenError.TOKEN_EXPIRED));
+//
+//        if (isExpiredToken(refreshTokenInDB)) {
+//            throw new TokenException(TokenError.TOKEN_EXPIRED);
+//        }
+//
+//    }
 
     private boolean isExpiredToken(String token) {
         Date expiraionDate = extractClaim(token, Claims::getExpiration);
@@ -110,7 +110,7 @@ public class JwtUtil {
         token.put("refreshToken", refreshToken);
 
         saveOrFindUser.setAccessToken(accessToken);
-        saveOrFindUser.setRefreshToken(refreshToken);
+//        saveOrFindUser.setRefreshToken(refreshToken);
 
         return token;
 
@@ -121,9 +121,9 @@ public class JwtUtil {
         String accessToken = generateAccessToken(user);
 
         user.setAccessToken(accessToken);
-        user.setRefreshToken(refreshToken);
+//        user.setRefreshToken(refreshToken);
 
-        return new ResponseToken(accessToken, refreshToken);
+        return new ResponseToken(accessToken);
     }
 
     public String extractTokenFromHeader(HttpServletRequest request) {
