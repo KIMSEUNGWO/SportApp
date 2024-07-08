@@ -1,12 +1,11 @@
-package app.sport.sw.mvc.security;
+package app.sport.sw.component;
 
-import app.sport.sw.component.JwtUtil;
 import app.sport.sw.domain.user.User;
 import app.sport.sw.dto.user.CustomUserDetails;
 import app.sport.sw.enums.SocialProvider;
 import app.sport.sw.exception.TokenError;
 import app.sport.sw.exception.TokenException;
-import app.sport.sw.mvc.user.UserRepository;
+import app.sport.sw.repository.SocialRepository;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -21,7 +20,7 @@ import org.springframework.stereotype.Service;
 public class SecurityUtil {
 
     private final JwtUtil jwtUtil;
-    private final UserRepository userRepository;
+    private final SocialRepository socialRepository;
 
     public void saveUserInSecurityContext(User user) {
         SecurityContext context = SecurityContextHolder.createEmptyContext();
@@ -55,7 +54,7 @@ public class SecurityUtil {
     }
 
     private UserDetails loadUserBySocialIdAndSocialProvider(String socialId, SocialProvider provider) {
-        return userRepository.findBySocialIdAndProvider(socialId, provider)
+        return socialRepository.findBySocialIdAndProvider(socialId, provider)
             .map(CustomUserDetails::new)
             .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 

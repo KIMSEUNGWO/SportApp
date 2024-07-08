@@ -1,4 +1,4 @@
-package app.sport.sw.mvc.club;
+package app.sport.sw.service;
 
 import app.sport.sw.dto.group.ResponseDefaultGroupData;
 

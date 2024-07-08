@@ -1,7 +1,7 @@
 package app.sport.sw.filter;
 
 import app.sport.sw.component.JwtUtil;
-import app.sport.sw.mvc.security.SecurityUtil;
+import app.sport.sw.component.SecurityUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -23,10 +23,10 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
-        String accessToken = jwtUtil.extractTokenFromHeader(request);
-        jwtUtil.validateAccessToken(accessToken);
-
-        securityUtil.saveUserInSecurityContext(accessToken);
+//        String accessToken = jwtUtil.extractTokenFromHeader(request);
+//        jwtUtil.validateAccessToken(accessToken);
+//
+//        securityUtil.saveUserInSecurityContext(accessToken);
 
         filterChain.doFilter(request, response);
 

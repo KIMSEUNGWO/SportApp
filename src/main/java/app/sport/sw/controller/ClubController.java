@@ -1,7 +1,7 @@
-package app.sport.sw.mvc.club;
+package app.sport.sw.controller;
 
-import app.sport.sw.dto.group.DefaultGroupInfo;
 import app.sport.sw.dto.group.ResponseDefaultGroupData;
+import app.sport.sw.service.ClubService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

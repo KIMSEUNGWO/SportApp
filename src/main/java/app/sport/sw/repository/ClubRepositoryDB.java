@@ -1,7 +1,6 @@
-package app.sport.sw.mvc.club;
+package app.sport.sw.repository;
 
 import app.sport.sw.domain.group.Club;
-import app.sport.sw.dto.group.DefaultGroupInfo;
 import app.sport.sw.jparepository.JpaClubRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;

@@ -1,4 +1,4 @@
-package app.sport.sw.mvc.user;
+package app.sport.sw.repository;
 
 import app.sport.sw.domain.user.User;
 import app.sport.sw.enums.SocialProvider;
@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
-public class UserRepository {
+public class SocialRepository {
 
     private final JpaUserRepository jpaUserRepository;
 

@@ -27,6 +27,7 @@ public class User extends BaseEntityTime {
     @Column(name = "USER_ID")
     private long id;
 
+    @Getter
     private String nickName;
 
     @Getter
@@ -45,6 +46,7 @@ public class User extends BaseEntityTime {
     @JoinColumn(name = "PROFILE_ID")
     private Profile profile;
 
+    @Getter
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<UserClub> userClubList = new ArrayList<>();
 
@@ -59,6 +61,14 @@ public class User extends BaseEntityTime {
 
     public void setAccessToken(String accessToken) {
         userSocial.setAccessToken(accessToken);
+    }
+
+    public String getAccessToken() {
+        return userSocial.getAccessToken();
+    }
+
+    public String getImage() {
+        return profile.getStoreName();
     }
 }
 

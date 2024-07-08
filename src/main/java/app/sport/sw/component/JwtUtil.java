@@ -5,7 +5,7 @@ import app.sport.sw.domain.user.UserSocial;
 import app.sport.sw.dto.user.ResponseToken;
 import app.sport.sw.exception.TokenError;
 import app.sport.sw.exception.TokenException;
-import app.sport.sw.mvc.user.UserRepository;
+import app.sport.sw.repository.SocialRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import javax.crypto.SecretKey;
-import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -28,15 +27,15 @@ import java.util.function.Function;
 @RequiredArgsConstructor
 public class JwtUtil {
 
-    private final UserRepository userRepository;
+    private final SocialRepository socialRepository;
 
     private static final long ACCESS_TOKEN_EXPIRES_TIME = 60 * 60 * 24 * 1;
     private static final long REFRESH_TOKEN_EXPIRES_TIME = 60 * 60 * 24 * 7;
     private final SecretKey secretKey;
 
     @Autowired
-    public JwtUtil(UserRepository userRepository, @Value("${jwt.secret-key}") String secretKey) {
-        this.userRepository = userRepository;
+    public JwtUtil(SocialRepository socialRepository, @Value("${jwt.secret-key}") String secretKey) {
+        this.socialRepository = socialRepository;
         this.secretKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(secretKey));
     }
 
