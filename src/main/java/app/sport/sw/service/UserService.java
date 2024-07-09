@@ -17,8 +17,8 @@ public class UserService {
 
     private final JpaUserRepository jpaUserRepository;
 
-    public ResponseProfile getUserProfile(String accessToken) {
-        return jpaUserRepository.findByUserSocial_AccessToken(accessToken)
+    public ResponseProfile getUserProfile(long userId) {
+        return jpaUserRepository.findById(userId)
             .map(user -> ResponseProfile.builder()
                 .image(user.getImage())
                 .name(user.getNickName())

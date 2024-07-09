@@ -27,7 +27,6 @@ public class SignupService {
         UserSocial userSocial = UserSocial.builder()
             .socialId(profile.getUserId())
             .provider(loginDto.getProvider())
-            .accessToken(loginDto.getAccessToken())
             .build();
 
         UserInfo userInfo = UserInfo.builder()

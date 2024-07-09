@@ -1,6 +1,7 @@
 package app.sport.sw.domain.user;
 
 import app.sport.sw.enums.SocialProvider;
+import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -17,6 +18,6 @@ public class UserSocial {
     @Enumerated(EnumType.STRING)
     private SocialProvider provider;
     @Setter
-    private String accessToken;
+    private String refreshToken;
 
 }

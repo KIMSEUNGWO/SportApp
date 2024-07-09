@@ -19,6 +19,7 @@ public class TokenExceptionHandler {
     @ExceptionHandler(TokenException.class)
     public ResponseEntity<Response> handleTokenException(TokenException e) {
         e.printStackTrace();
-        return new ResponseEntity<>(new Response(e.getMessage()), HttpStatus.FORBIDDEN);
+        System.out.println("Token Exception 발생 !!!");
+        return new ResponseEntity<>(new Response(e.getMessage()), HttpStatus.BAD_REQUEST);
     }
 }

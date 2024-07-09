@@ -22,7 +22,6 @@ public class AccessTokenVerifer {
     }
 
     public LineProfile getLineProfile(String accessToken) {
-        accessToken = parse(accessToken);
         verifyAccessToken(accessToken);
         return lineAPI.getLineProfile(accessToken);
     }

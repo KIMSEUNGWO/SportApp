@@ -1,15 +1,11 @@
 package app.sport.sw.config;
 
+import app.sport.sw.filter.FlutterAuthorizationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.client.RestTemplate;
 
 @Configuration
-public class AppConfig {
+public class FilterConfig {
 
-    @Bean
-    RestTemplate restTemplate() {
-        return new RestTemplate();
-    }
 
 }

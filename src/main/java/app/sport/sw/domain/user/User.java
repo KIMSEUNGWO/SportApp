@@ -59,12 +59,12 @@ public class User extends BaseEntityTime {
     @OneToMany(mappedBy = "user")
     private List<Comment> comments = new ArrayList<>();
 
-    public void setAccessToken(String accessToken) {
-        userSocial.setAccessToken(accessToken);
+    public void setRefreshToken(String accessToken) {
+        userSocial.setRefreshToken(accessToken);
     }
 
-    public String getAccessToken() {
-        return userSocial.getAccessToken();
+    public String getRefreshToken() {
+        return userSocial.getRefreshToken();
     }
 
     public String getImage() {

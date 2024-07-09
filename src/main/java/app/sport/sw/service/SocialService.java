@@ -6,6 +6,8 @@ import app.sport.sw.domain.user.User;
 import app.sport.sw.dto.user.ResponseToken;
 import app.sport.sw.dto.user.SocialLoginDto;
 import app.sport.sw.component.SecurityUtil;
+import app.sport.sw.exception.TokenError;
+import app.sport.sw.exception.TokenException;
 import app.sport.sw.repository.SocialRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,23 +21,18 @@ public class SocialService {
     private final SignupService signupService;
 
     private final SocialRepository socialRepository;
-    private final SecurityUtil securityUtil;
     private final JwtUtil jwtUtil;
 
 
-    public ResponseToken socialLogin(SocialLoginDto loginDto, LineProfile profile) {
-        User user = socialRepository
+    public User socialLogin(SocialLoginDto loginDto, LineProfile profile) {
+
+        return socialRepository
             .findBySocialIdAndProvider(loginDto.getSocialId(), loginDto.getProvider())
             .orElseGet(() -> signupService.register(loginDto, profile));
-        /*
-            1. 로그인한 경우 -> LINE 에서 새로발급받은 AccessToken 로 변경
-            2. 회원가입한 경우 -> 변함없음
-         */
-        user.setAccessToken(loginDto.getAccessToken());
-
-        securityUtil.saveUserInSecurityContext(user);
-
-        return new ResponseToken(user.getUserSocial());
     }
 
+    public User getUserInfoByUsingRefreshToken(String refreshToken) {
+        return socialRepository.findByRefreshToken(refreshToken)
+            .orElseThrow(() -> new TokenException(TokenError.REFRESH_TOKEN_EXPIRED));
+    }
 }
