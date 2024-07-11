@@ -7,10 +7,7 @@ import app.sport.sw.domain.group.board.Board;
 import app.sport.sw.domain.group.board.Comment;
 import app.sport.sw.enums.Role;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,10 +24,10 @@ public class User extends BaseEntityTime {
     @Column(name = "USER_ID")
     private long id;
 
-    @Getter
+    @Getter @Setter
     private String nickName;
 
-    @Getter
+    @Getter @Setter
     @Embedded
     private UserInfo userInfo;
 
@@ -42,6 +39,7 @@ public class User extends BaseEntityTime {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @Getter
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "PROFILE_ID")
     private Profile profile;

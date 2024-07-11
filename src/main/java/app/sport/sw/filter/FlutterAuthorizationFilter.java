@@ -9,6 +9,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 @Component
 @Slf4j
@@ -17,6 +19,11 @@ public class FlutterAuthorizationFilter extends OncePerRequestFilter {
     @Value("${sport.api-key}")
     private String API_KEY;
     private final String HEADER_NAME = "Sport-Authorization";
+
+    private final List<String> excludePath = List.of(
+        "/favicon.ico",
+        "/images/"
+    );
 
 
     @Override
@@ -31,5 +38,11 @@ public class FlutterAuthorizationFilter extends OncePerRequestFilter {
         }
 
         filterChain.doFilter(request, response);
+    }
+
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+        String path = request.getRequestURI();
+        return excludePath.stream().anyMatch(path::startsWith);
     }
 }

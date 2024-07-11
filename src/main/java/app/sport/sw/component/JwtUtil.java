@@ -32,8 +32,8 @@ public class JwtUtil {
 
     private final SocialRepository socialRepository;
 
-    private static final long ACCESS_TOKEN_EXPIRES_TIME = 10;
-    private static final long REFRESH_TOKEN_EXPIRES_TIME = 60 * 60 * 24 * 7;
+    private static final long ACCESS_TOKEN_EXPIRES_TIME = 60 * 60 * 24;
+    private static final long REFRESH_TOKEN_EXPIRES_TIME = 60 * 60 * 24 * 30;
     private final SecretKey secretKey;
     private final UserRepository userRepository;
 

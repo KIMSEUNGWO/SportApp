@@ -1,11 +1,7 @@
 package app.sport.sw.domain.user;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
 
@@ -17,5 +13,7 @@ import java.time.LocalDate;
 public class UserInfo {
 
     private char sex;
+    @Setter
+    private String intro;
     private LocalDate birthDate;
 }

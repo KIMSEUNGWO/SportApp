@@ -13,6 +13,7 @@ public class ResponseProfile {
 
     private String image;
     private String name;
+    private String intro;
     private char sex;
     private LocalDate birth;
     private int groupCount;

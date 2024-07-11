@@ -13,8 +13,12 @@ public abstract class BaseEntityImage {
     private String originalName;
     private String storeName;
 
-    public void setImage(String originalName, String storeName) {
+    private String thumbnailName;
+
+    public void setImage(String originalName, String storeName, String thumbnailName) {
         this.originalName = originalName;
         this.storeName = storeName;
+        this.thumbnailName = thumbnailName;
     }
+
 }

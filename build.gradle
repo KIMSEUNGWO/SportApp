@@ -40,6 +40,9 @@ dependencies {
 	implementation 'io.jsonwebtoken:jjwt-gson:0.12.6'
 	implementation 'io.jsonwebtoken:jjwt-impl:0.12.6'
 
+	// 썸네일
+	implementation group: 'net.coobird', name: 'thumbnailator', version: '0.4.20'
+
 }
 
 tasks.named('test') {

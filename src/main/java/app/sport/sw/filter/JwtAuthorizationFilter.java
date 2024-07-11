@@ -21,6 +21,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.List;
 
 @Component
 @RequiredArgsConstructor
@@ -29,6 +30,13 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     private final JwtUtil jwtUtil;
     private final SecurityUtil securityUtil;
     private final ObjectMapper mapper = new ObjectMapper();
+    private final List<String> excludePath = List.of(
+        "/favicon.ico",
+        "/social/login",
+        "/social/token",
+        "/images/",
+        "/distinct/"
+    );
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -67,11 +75,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-        String[] excludePath = {
-            "/social/login",
-            "/social/token", // 토큰 만료시 RefreshToken 요청은 AccessToken 검증 제외
-        };
         String path = request.getRequestURI();
-        return Arrays.stream(excludePath).anyMatch(path::startsWith);
+        return excludePath.stream().anyMatch(path::startsWith);
     }
 }
