@@ -27,10 +27,10 @@ public class UserController {
     }
 
     @PostMapping("/edit")
-    public ResponseEntity<String> editProfile(@AuthenticationPrincipal CustomUserDetails userDetails,
+    public ResponseEntity<Response> editProfile(@AuthenticationPrincipal CustomUserDetails userDetails,
                                               @ModelAttribute EditProfileRequest editProfileRequest) {
         userService.editUserProfile(userDetails.getUser().getId(), editProfileRequest);
-        return ResponseEntity.ok("ok");
+        return ResponseEntity.ok(new Response("OK"));
     }
 
 }

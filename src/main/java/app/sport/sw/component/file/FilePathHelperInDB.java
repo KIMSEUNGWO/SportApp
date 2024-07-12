@@ -21,6 +21,6 @@ public class FilePathHelperInDB implements FilePathHelper {
     }
 
     private String getPath(String fileName, String folderName) {
-        return String.format("%s%s/%s", fileDir, folderName, fileName);
+        return String.format("%s%s%s", fileDir, folderName, fileName);
     }
 }

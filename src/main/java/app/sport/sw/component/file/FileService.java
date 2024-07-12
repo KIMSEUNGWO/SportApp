@@ -25,6 +25,8 @@ public class FileService {
         String storeName = createStoreName(originalName);
 
         try {
+            System.out.println("삭제되는 이미지 파일 이름 " + imageEntity.getStoreName());
+            System.out.println("업로드되는 이미지 파일 이름 " + storeName);
             fileRepository.delete(imageEntity.getStoreName(), fileType);
             fileRepository.upload(file, fileType, storeName);
         } catch (IOException e) {
