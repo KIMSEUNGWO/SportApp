@@ -1,5 +1,6 @@
 package app.sport.sw.service;
 
+import app.sport.sw.component.authority.AuthorityClubChecker;
 import app.sport.sw.component.file.FileService;
 import app.sport.sw.domain.group.UserClub;
 import app.sport.sw.domain.group.board.Board;
@@ -7,10 +8,12 @@ import app.sport.sw.dto.board.BoardCreateRequest;
 import app.sport.sw.dto.user.CustomUserDetails;
 import app.sport.sw.enums.Authority;
 import app.sport.sw.enums.group.BoardType;
+import app.sport.sw.exception.VIPException;
 import app.sport.sw.exception.club.ClubException;
 import app.sport.sw.repository.BoardRepository;
 import app.sport.sw.repository.UserClubRepository;
 import app.sport.sw.response.ClubError;
+import app.sport.sw.response.VIPCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,6 +29,7 @@ public class BoardServiceImpl implements BoardService {
     private final UserClubRepository userClubRepository;
     private final BoardRepository boardRepository;
     private final FileService fileService;
+    private final AuthorityClubChecker clubChecker;
 
     @Override
     public void createBoard(long clubId, CustomUserDetails userDetails, BoardCreateRequest createRequest) {
@@ -52,6 +56,9 @@ public class BoardServiceImpl implements BoardService {
 
         List<MultipartFile> images = createRequest.getImages();
         if (images != null && !images.isEmpty()) {
+            if (!clubChecker.isPremium(userClub.getClub())) {
+                throw new VIPException(VIPCode.NOT_VIP_CLUB);
+            }
             fileService.saveBoardImages(images.subList(0, Math.min(4, images.size())), saveBoard);
         }
 

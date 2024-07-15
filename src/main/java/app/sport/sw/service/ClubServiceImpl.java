@@ -1,6 +1,6 @@
 package app.sport.sw.service;
 
-import app.sport.sw.component.AuthorityUserChecker;
+import app.sport.sw.component.authority.AuthorityUserChecker;
 import app.sport.sw.component.file.FileService;
 import app.sport.sw.component.file.FileType;
 import app.sport.sw.domain.group.Club;

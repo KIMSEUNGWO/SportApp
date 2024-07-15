@@ -1,4 +1,4 @@
-package app.sport.sw.component;
+package app.sport.sw.component.authority;
 
 import app.sport.sw.dto.user.CustomUserDetails;
 import app.sport.sw.enums.Role;

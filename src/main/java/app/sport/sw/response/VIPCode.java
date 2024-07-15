@@ -2,7 +2,8 @@ package app.sport.sw.response;
 
 public enum VIPCode implements ResponseCode {
 
-    NOT_VIP
+    NOT_VIP_USER,
+    NOT_VIP_CLUB
     ;
 
     @Override
