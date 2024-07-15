@@ -4,12 +4,12 @@ import app.sport.sw.component.BindingField;
 import app.sport.sw.dto.Response;
 import app.sport.sw.dto.ResponseData;
 import app.sport.sw.dto.club.ClubCreateRequest;
+import app.sport.sw.dto.club.ClubEditRequest;
 import app.sport.sw.dto.club.DefaultClubInfo;
 import app.sport.sw.dto.user.CustomUserDetails;
 import app.sport.sw.response.ClubError;
 import app.sport.sw.response.SuccessCode;
 import app.sport.sw.service.ClubService;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -37,7 +37,27 @@ public class ClubController {
             return ResponseEntity.badRequest().body(new ResponseData<>(ClubError.INVALID_DATA, fieldNames));
         }
 
-        clubService.createClub(userDetails, clubCreateRequest);
+        long clubId = clubService.createClub(userDetails, clubCreateRequest);
+        return ResponseEntity.ok(new ResponseData<>(SuccessCode.OK, clubId));
+    }
+
+    @PostMapping("/{clubId}/edit")
+    public ResponseEntity<Response> editClub(
+                @PathVariable("clubId") long clubId,
+                @Validated @ModelAttribute ClubEditRequest clubEditRequest,
+                 BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            List<String> fieldNames = BindingField.getFieldNames(bindingResult);
+            return ResponseEntity.badRequest().body(new ResponseData<>(ClubError.INVALID_DATA, fieldNames));
+        }
+        clubService.editClub(clubId, clubEditRequest);
+        return ResponseEntity.ok(new Response(SuccessCode.OK));
+    }
+
+    @PostMapping("/{clubId}/join")
+    public ResponseEntity<Response> joinClub(@PathVariable("clubId") long clubId, @AuthenticationPrincipal CustomUserDetails userDetails) {
+        clubService.joinClub(clubId, userDetails);
         return ResponseEntity.ok(new Response(SuccessCode.OK));
     }
 

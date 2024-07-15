@@ -5,7 +5,6 @@ import app.sport.sw.enums.region.Region;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -23,7 +22,7 @@ public class ClubCreateRequest {
     @Length(min = 3, max = 20)
     private String title;
     @Length(max = 300)
-    private String content;
+    private String intro;
 
     @Min(3)
     @Max(10)

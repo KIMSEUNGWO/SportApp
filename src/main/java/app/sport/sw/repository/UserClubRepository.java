@@ -1,6 +1,5 @@
 package app.sport.sw.repository;
 
-import app.sport.sw.domain.group.Club;
 import app.sport.sw.domain.group.UserClub;
 import app.sport.sw.dto.user.CustomUserDetails;
 import app.sport.sw.jparepository.JpaUserClubRepository;

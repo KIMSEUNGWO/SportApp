@@ -6,11 +6,10 @@ import app.sport.sw.domain.user.User;
 import app.sport.sw.domain.group.region.ClubRegion;
 import app.sport.sw.enums.ClubGrade;
 import app.sport.sw.enums.group.SportType;
+import app.sport.sw.exception.club.ClubException;
+import app.sport.sw.response.ClubError;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,14 +26,19 @@ public class Club extends BaseEntityTime {
     @Column(name = "CLUB_ID")
     private long id;
 
+    @Setter
     private String title;
+    @Setter
     private String intro;
+    @Setter
     @Enumerated(EnumType.STRING)
     private SportType sportType;
     @Embedded
     private ClubRegion clubRegion;
     @Enumerated(EnumType.STRING)
     private ClubGrade grade;
+
+    private int limitPerson;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_ID")
@@ -53,6 +57,15 @@ public class Club extends BaseEntityTime {
 
     public int getPersonCount() {
         return userClubList.size();
+    }
+
+    public void setLimitPerson(int limitPerson) {
+        if (getPersonCount() > limitPerson) throw new ClubException(ClubError.EXCEED_LIMIT_PERSON);
+        this.limitPerson = limitPerson;
+    }
+
+    public boolean isFull() {
+        return limitPerson <= getPersonCount();
     }
 
 }

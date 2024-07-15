@@ -23,4 +23,9 @@ public class ClubRegion {
         this.parentRegion = region.getParentRegion();
     }
 
+    public void setRegion(Region region) {
+        this.region = region;
+        this.parentRegion = region.getParentRegion();
+    }
+
 }

@@ -18,8 +18,8 @@ public class MainController {
 
     @GetMapping("/")
     public ResponseEntity<List<RecentlyViewClub>> main(@RequestParam("clubs") List<Long> clubIds) {
-
-        List<RecentlyViewClub> clubList = clubService.findByClubs(clubIds);
+        List<Long> subList = clubIds.subList(0, Math.min(10, clubIds.size()));
+        List<RecentlyViewClub> clubList = clubService.findByClubs(subList);
         return ResponseEntity.ok(clubList);
     }
 }
