@@ -2,6 +2,7 @@ package app.sport.sw.filter;
 
 import app.sport.sw.component.JwtUtil;
 import app.sport.sw.component.SecurityUtil;
+import app.sport.sw.domain.group.Club;
 import app.sport.sw.dto.Response;
 import app.sport.sw.exception.TokenException;
 import app.sport.sw.response.ResponseCode;
@@ -18,6 +19,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.regex.Pattern;
 
 @Component
 @RequiredArgsConstructor
@@ -26,6 +28,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     private final JwtUtil jwtUtil;
     private final SecurityUtil securityUtil;
     private final ObjectMapper mapper = new ObjectMapper();
+
     private final List<String> excludePath = List.of(
         "/favicon.ico",
         "/social/login",
@@ -33,6 +36,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         "/images/",
         "/distinct/"
     );
+    private final Pattern CLUB_INFO_PATTERN = Pattern.compile("^/club/[0-9]+$");
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -43,8 +47,12 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             checkAccessTokenValid(request);
             filterChain.doFilter(request, response);
         } catch (TokenException e) {
-            System.out.println("TokenException 발생!! :" + e.getMessage());
-            setErrorResponse(response, e.getTokenError());
+            if (CLUB_INFO_PATTERN.matcher(request.getRequestURI()).matches()) {
+                filterChain.doFilter(request, response);
+            } else {
+                System.out.println("TokenException 발생!! :" + e.getMessage());
+                setErrorResponse(response, e.getTokenError());
+            }
         }
 
 
@@ -72,6 +80,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
         String path = request.getRequestURI();
+        if (path.equals("/")) return true;
         return excludePath.stream().anyMatch(path::startsWith);
     }
 }

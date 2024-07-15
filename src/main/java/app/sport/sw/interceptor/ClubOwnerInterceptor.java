@@ -1,6 +1,7 @@
 package app.sport.sw.interceptor;
 
 import app.sport.sw.dto.user.CustomUserDetails;
+import app.sport.sw.enums.Authority;
 import app.sport.sw.exception.club.ClubException;
 import app.sport.sw.jparepository.JpaUserClubRepository;
 import app.sport.sw.response.ClubError;
@@ -15,14 +16,15 @@ import org.springframework.web.servlet.HandlerInterceptor;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class ClubJoinInterceptor implements HandlerInterceptor {
+public class ClubOwnerInterceptor implements HandlerInterceptor {
 
     private final JpaUserClubRepository jpaUserClubRepository;
     private final InterceptorPathHelper pathHelper;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        log.info("ClubJoinInterceptor 진입");
+
+        log.info("ClubOwnerInterceptor 진입");
 
         long clubId = pathHelper.getClubId(request);
         log.info("clubId: {}", clubId);
@@ -30,8 +32,8 @@ public class ClubJoinInterceptor implements HandlerInterceptor {
         CustomUserDetails principal = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         long userId = principal.getUser().getId();
 
-        boolean exists = jpaUserClubRepository.existsByClub_IdAndUser_Id(clubId, userId);
-        if (!exists) throw new ClubException(ClubError.CLUB_NOT_JOIN_USER);
+        boolean exists = jpaUserClubRepository.existsByClub_IdAndUser_IdAndAuthority(clubId, userId, Authority.OWNER);
+        if (!exists) throw new ClubException(ClubError.CLUB_NOT_OWNER);
 
         return true;
     }

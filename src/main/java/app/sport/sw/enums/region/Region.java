@@ -1,5 +1,7 @@
 package app.sport.sw.enums.region;
 
+import app.sport.sw.enums.group.SportType;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -36,5 +38,13 @@ public enum Region {
 
 
     private final ParentRegion parentRegion;
+
+    @JsonCreator
+    public static Region fromJson(String data) {
+        for (Region region : Region.values()) {
+            if (region.name().equals(data)) return region;
+        }
+        return null;
+    }
 
 }

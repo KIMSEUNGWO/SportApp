@@ -17,7 +17,7 @@ public class InterceptorPathHelper {
         try {
             return Long.parseLong(replace);
         } catch (NumberFormatException e) {
-            throw new ClubException(ClubError.NOT_EXISTS);
+            throw new ClubException(ClubError.CLUB_NOT_EXISTS);
         }
     }
 

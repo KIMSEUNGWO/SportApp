@@ -5,9 +5,15 @@ import app.sport.sw.domain.user.User;
 import app.sport.sw.enums.Authority;
 import app.sport.sw.enums.Role;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "USER_CLUB")
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserClub extends BaseEntityTime {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,4 +30,5 @@ public class UserClub extends BaseEntityTime {
 
     @Enumerated(EnumType.STRING)
     private Authority authority;
+
 }

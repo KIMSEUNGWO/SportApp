@@ -6,16 +6,18 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.time.LocalDateTime;
+
+@Getter
 @Builder
 @AllArgsConstructor
-@Getter
-public class DefaultClubInfo {
+public class RecentlyViewClub {
 
-    private String image;
+    private String thumbnail;
     private String title;
     private String intro;
-    private SportType sport;
+    private SportType sportType;
     private Region region;
     private int personCount;
-    private boolean isInclude;
+    private LocalDateTime createDate;
 }
