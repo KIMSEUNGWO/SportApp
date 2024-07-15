@@ -7,7 +7,8 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum FileType {
 
-    PROFILE("profile","/original/profile/", "/thumbnail/profile/"),;
+    PROFILE("profile","/original/profile/", "/thumbnail/profile/"),
+    CLUB_IMAGE("club", "/original/club/", "/thumbnail/club/"),;
 
     private final String dir;
     private final String originalPath;

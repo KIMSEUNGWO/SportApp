@@ -21,7 +21,8 @@ public class FileService {
         if (file == null || file.getContentType() == null) return;
 
         String originalName = file.getOriginalFilename();
-        String storeName = createStoreName(originalName);
+        String storeName = createName(originalName);
+        String thumbnailName = createName(originalName);
 
         try {
             fileRepository.delete(imageEntity.getStoreName(), fileType);
@@ -30,10 +31,10 @@ public class FileService {
             throw new FileUploadException(FileCode.FAILED_TO_UPLOAD_FILE);
         }
 
-        imageEntity.setImage(originalName, storeName, storeName);
+        imageEntity.setImage(originalName, storeName, thumbnailName);
     }
 
-    private String createStoreName(String originalFileName) {
+    private String createName(String originalFileName) {
         String uuid = UUID.randomUUID().toString();
 
         int pos = originalFileName.lastIndexOf(".");
