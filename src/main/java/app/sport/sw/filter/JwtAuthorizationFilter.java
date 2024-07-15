@@ -44,7 +44,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
         } catch (TokenException e) {
             System.out.println("TokenException 발생!! :" + e.getMessage());
-            setErrorResponse(response, e.getResponseCode());
+            setErrorResponse(response, e.getTokenError());
         }
 
 

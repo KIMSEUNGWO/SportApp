@@ -1,4 +1,4 @@
-package app.sport.sw.dto.group;
+package app.sport.sw.dto.club;
 
 import app.sport.sw.enums.group.SportType;
 import app.sport.sw.enums.region.Region;
@@ -9,7 +9,7 @@ import lombok.Getter;
 @Builder
 @AllArgsConstructor
 @Getter
-public class DefaultGroupInfo {
+public class DefaultClubInfo {
 
     private final String image;
     private final String title;

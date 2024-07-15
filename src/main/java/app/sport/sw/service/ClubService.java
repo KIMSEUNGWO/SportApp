@@ -1,8 +1,8 @@
 package app.sport.sw.service;
 
-import app.sport.sw.dto.group.ResponseDefaultGroupData;
+import app.sport.sw.dto.club.ResponseDefaultClubData;
 
 public interface ClubService {
 
-    ResponseDefaultGroupData getClubData(long clubId);
+    ResponseDefaultClubData getClubData(long clubId);
 }

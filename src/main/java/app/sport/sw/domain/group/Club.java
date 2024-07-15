@@ -32,10 +32,6 @@ public class Club extends BaseEntityTime {
     private SportType sportType;
     @Embedded
     private ClubRegion clubRegion;
-    private char secret;
-    private String inviteCode;
-    @Enumerated(EnumType.STRING)
-    private AccessType accessType;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_ID")
@@ -47,9 +43,6 @@ public class Club extends BaseEntityTime {
 
     @OneToMany(mappedBy = "club", cascade = CascadeType.ALL)
     private List<UserClub> userClubList = new ArrayList<>();
-
-    @OneToMany(mappedBy = "club", cascade = CascadeType.ALL)
-    private List<ClubJoinRequest> clubJoinRequestList = new ArrayList<>();
 
     @OneToMany(mappedBy = "club")
     private List<Board> clubBoardList = new ArrayList<>();

@@ -1,10 +1,10 @@
 package app.sport.sw.service;
 
 import app.sport.sw.domain.group.Club;
-import app.sport.sw.dto.group.DefaultGroupInfo;
-import app.sport.sw.dto.group.ResponseDefaultGroupData;
-import app.sport.sw.exception.ClubError;
-import app.sport.sw.exception.ClubException;
+import app.sport.sw.dto.club.DefaultClubInfo;
+import app.sport.sw.dto.club.ResponseDefaultClubData;
+import app.sport.sw.response.ClubError;
+import app.sport.sw.exception.club.ClubException;
 import app.sport.sw.repository.ClubRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,11 +18,11 @@ public class ClubServiceImpl implements ClubService {
     private final ClubRepository clubRepository;
 
     @Transactional(readOnly = true)
-    public ResponseDefaultGroupData getClubData(long clubId) {
+    public ResponseDefaultClubData getClubData(long clubId) {
 
         Club club = findByClubId(clubId);
 
-        DefaultGroupInfo defaultInfo = DefaultGroupInfo.builder()
+        DefaultClubInfo defaultInfo = DefaultClubInfo.builder()
             .image(club.getClubImage().getStoreName())
             .title(club.getTitle())
             .intro(club.getIntro())
@@ -32,7 +32,7 @@ public class ClubServiceImpl implements ClubService {
             .build();
 
 
-        return new ResponseDefaultGroupData(defaultInfo, null);
+        return new ResponseDefaultClubData(defaultInfo, null);
     }
 
     private Club findByClubId(long clubId) {

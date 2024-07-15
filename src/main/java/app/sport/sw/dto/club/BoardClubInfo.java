@@ -1,4 +1,4 @@
-package app.sport.sw.dto.group;
+package app.sport.sw.dto.club;
 
 import app.sport.sw.enums.group.BoardType;
 import lombok.AllArgsConstructor;
@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @Getter
-public class BoardGroupInfo {
+public class BoardClubInfo {
 
     private final BoardType boardType;
     private final String image;

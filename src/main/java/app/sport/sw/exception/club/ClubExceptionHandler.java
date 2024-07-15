@@ -1,5 +1,6 @@
-package app.sport.sw.exception;
+package app.sport.sw.exception.club;
 
+import app.sport.sw.response.ClubError;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;

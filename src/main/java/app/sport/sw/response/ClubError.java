@@ -1,9 +1,9 @@
 package app.sport.sw.response;
 
-public enum FileCode implements ResponseCode {
+public enum ClubError implements ResponseCode {
 
-    MAX_UPLOAD_SIZE_EXCEEDED,
-    FAILED_TO_UPLOAD_FILE,
+    NOT_EXISTS,
+    NOT_JOIN_USER
     ;
 
     @Override

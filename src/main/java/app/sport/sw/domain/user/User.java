@@ -1,7 +1,6 @@
 package app.sport.sw.domain.user;
 
 import app.sport.sw.domain.BaseEntityTime;
-import app.sport.sw.domain.group.ClubJoinRequest;
 import app.sport.sw.domain.group.UserClub;
 import app.sport.sw.domain.group.board.Board;
 import app.sport.sw.domain.group.board.Comment;
@@ -47,9 +46,6 @@ public class User extends BaseEntityTime {
     @Getter
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<UserClub> userClubList = new ArrayList<>();
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<ClubJoinRequest> clubJoinRequestList = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
     private List<Board> clubBoardList = new ArrayList<>();

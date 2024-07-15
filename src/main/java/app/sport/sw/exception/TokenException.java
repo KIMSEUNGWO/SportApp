@@ -1,14 +1,14 @@
 package app.sport.sw.exception;
 
-import app.sport.sw.response.ResponseCode;
+import app.sport.sw.response.TokenError;
 import lombok.Getter;
 
 @Getter
 public class TokenException extends RuntimeException {
 
-    private ResponseCode responseCode;
+    private TokenError tokenError;
 
-    public TokenException(ResponseCode responseCode) {
-        this.responseCode = responseCode;
+    public TokenException(TokenError tokenError) {
+        this.tokenError = tokenError;
     }
 }

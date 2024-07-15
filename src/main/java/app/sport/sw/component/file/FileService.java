@@ -1,9 +1,9 @@
 package app.sport.sw.component.file;
 
 import app.sport.sw.domain.BaseEntityImage;
+import app.sport.sw.response.FileCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -18,27 +18,19 @@ public class FileService {
 
     public void editImage(MultipartFile file, BaseEntityImage imageEntity, FileType fileType) {
 
-        System.out.println("editImage 시작 ");
-        if (file == null || isNotImage(file)) return;
+        if (file == null || file.getContentType() == null) return;
 
         String originalName = file.getOriginalFilename();
         String storeName = createStoreName(originalName);
 
         try {
-            System.out.println("삭제되는 이미지 파일 이름 " + imageEntity.getStoreName());
-            System.out.println("업로드되는 이미지 파일 이름 " + storeName);
             fileRepository.delete(imageEntity.getStoreName(), fileType);
             fileRepository.upload(file, fileType, storeName);
         } catch (IOException e) {
-            e.printStackTrace();
-            throw new FileUploadException();
+            throw new FileUploadException(FileCode.FAILED_TO_UPLOAD_FILE);
         }
 
         imageEntity.setImage(originalName, storeName, storeName);
-    }
-
-    private boolean isNotImage(MultipartFile file) {
-        return file.getContentType() == null;
     }
 
     private String createStoreName(String originalFileName) {

@@ -13,13 +13,13 @@ public class TokenExceptionHandler {
     @ExceptionHandler(SocialException.class)
     public ResponseEntity<Response> handleSocialException(SocialException e) {
         e.printStackTrace();
-        return ResponseEntity.badRequest().body(new Response(e.getMessage()));
+        return ResponseEntity.badRequest().body(new Response(e.getSocialError()));
     }
 
     @ExceptionHandler(TokenException.class)
     public ResponseEntity<Response> handleTokenException(TokenException e) {
         e.printStackTrace();
         System.out.println("Token Exception 발생 !!!");
-        return new ResponseEntity<>(new Response(e.getMessage()), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(new Response(e.getTokenError()), HttpStatus.BAD_REQUEST);
     }
 }

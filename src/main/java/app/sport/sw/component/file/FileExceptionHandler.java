@@ -18,4 +18,11 @@ public class FileExceptionHandler {
         e.printStackTrace();
         return ResponseEntity.badRequest().body(new Response(FileCode.MAX_UPLOAD_SIZE_EXCEEDED));
     }
+
+    @ExceptionHandler(FileUploadException.class)
+    public ResponseEntity<Response> fileUploadException(FileUploadException e) {
+        log.error("FileUploadException 예외 발생 !!");
+        e.printStackTrace();
+        return ResponseEntity.badRequest().body(new Response(e.getFileCode()));
+    }
 }
