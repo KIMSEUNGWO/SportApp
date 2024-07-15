@@ -1,6 +1,7 @@
 package app.sport.sw.interceptor;
 
 import app.sport.sw.dto.user.CustomUserDetails;
+import app.sport.sw.enums.Role;
 import app.sport.sw.exception.club.ClubException;
 import app.sport.sw.jparepository.JpaUserClubRepository;
 import app.sport.sw.response.ClubError;
@@ -28,6 +29,8 @@ public class ClubJoinInterceptor implements HandlerInterceptor {
         log.info("clubId: {}", clubId);
 
         CustomUserDetails principal = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal.getUser().getRole() == Role.ADMIN) return true;
+
         long userId = principal.getUser().getId();
 
         boolean exists = jpaUserClubRepository.existsByClub_IdAndUser_Id(clubId, userId);

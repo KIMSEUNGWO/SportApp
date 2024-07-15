@@ -1,9 +1,6 @@
 package app.sport.sw.config;
 
-import app.sport.sw.interceptor.BoardExistsInterceptor;
-import app.sport.sw.interceptor.ClubExistsInterceptor;
-import app.sport.sw.interceptor.ClubJoinInterceptor;
-import app.sport.sw.interceptor.ClubOwnerInterceptor;
+import app.sport.sw.interceptor.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -18,6 +15,7 @@ public class InterceptorConfig implements WebMvcConfigurer {
     private final ClubOwnerInterceptor clubOwnerInterceptor;
 
     private final BoardExistsInterceptor boardExistsInterceptor;
+    private final BoardOwnerInterceptor boardOwnerInterceptor;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
@@ -40,11 +38,15 @@ public class InterceptorConfig implements WebMvcConfigurer {
                 .order(3)
                 .addPathPatterns("/club/*/edit", "/club/*/delete");
 
-
         // 게시물이 존재하는지 확인하는 인터셉터
         registry.addInterceptor(boardExistsInterceptor)
                 .order(4)
                 .addPathPatterns("/club/*/board/**")
                 .excludePathPatterns("/club/*/board", "/club/*/board/add");
+
+        // 게시물을 작성한 유저인지 확인하는 인터셉터 ( 그룹장, 매니저도 허용 )
+        registry.addInterceptor(boardOwnerInterceptor)
+                .order(5)
+                .addPathPatterns("/club/*/board/*/edit", "/club/*/board/*/delete");
     }
 }

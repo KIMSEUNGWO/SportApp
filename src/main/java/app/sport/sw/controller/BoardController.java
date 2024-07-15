@@ -18,13 +18,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/club")
+@RequestMapping("/club/{clubId}/board")
 @RequiredArgsConstructor
 public class BoardController {
 
     private final BoardService boardService;
 
-    @PostMapping("/{clubId}/board/add")
+    @PostMapping("/add")
     public ResponseEntity<Response> noticeCreate(
             @PathVariable("clubId") long clubId,
             @AuthenticationPrincipal CustomUserDetails userDetails,

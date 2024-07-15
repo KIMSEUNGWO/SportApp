@@ -41,7 +41,7 @@ public class ClubController {
         return ResponseEntity.ok(new ResponseData<>(SuccessCode.OK, clubId));
     }
 
-    @PostMapping("/{clubId}/edit")
+    @PatchMapping("/{clubId}/edit")
     public ResponseEntity<Response> editClub(
                 @PathVariable("clubId") long clubId,
                 @Validated @ModelAttribute ClubEditRequest clubEditRequest,
