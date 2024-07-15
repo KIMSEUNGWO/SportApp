@@ -6,6 +6,8 @@ import app.sport.sw.jparepository.JpaUserClubRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 @RequiredArgsConstructor
 public class UserClubRepository {
@@ -20,5 +22,11 @@ public class UserClubRepository {
         if (userDetails == null) return false;
         long userId = userDetails.getUser().getId();
         return jpaUserClubRepository.existsByClub_IdAndUser_Id(clubId, userId);
+    }
+
+    public Optional<UserClub> findByClubIdAndUserId(long clubId, CustomUserDetails userDetails) {
+        if (userDetails == null) return Optional.empty();
+        long userId = userDetails.getUser().getId();
+        return jpaUserClubRepository.findByClub_IdAndUser_Id(clubId, userId);
     }
 }

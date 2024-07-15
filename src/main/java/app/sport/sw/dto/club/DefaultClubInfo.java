@@ -1,5 +1,7 @@
 package app.sport.sw.dto.club;
 
+import app.sport.sw.enums.Authority;
+import app.sport.sw.enums.Role;
 import app.sport.sw.enums.group.SportType;
 import app.sport.sw.enums.region.Region;
 import lombok.AllArgsConstructor;
@@ -18,4 +20,5 @@ public class DefaultClubInfo {
     private Region region;
     private int personCount;
     private boolean isInclude;
+    private Authority authority;
 }

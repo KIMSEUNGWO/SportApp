@@ -25,6 +25,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -41,6 +42,8 @@ public class ClubServiceImpl implements ClubService {
     public DefaultClubInfo getClubData(long clubId, CustomUserDetails userDetails) {
         Club club = findByClubId(clubId);
 
+        Optional<UserClub> findUserClub = userClubRepository.findByClubIdAndUserId(clubId, userDetails);
+
         return DefaultClubInfo.builder()
             .image(club.getClubImage().getStoreName())
             .title(club.getTitle())
@@ -48,7 +51,7 @@ public class ClubServiceImpl implements ClubService {
             .sport(club.getSportType())
             .region(club.getClubRegion().getRegion())
             .personCount(club.getPersonCount())
-            .isInclude(userClubRepository.existsByClubIdAndUserId(club.getId(), userDetails))
+            .authority(findUserClub.map(UserClub::getAuthority).orElse(null))
             .build();
     }
 
