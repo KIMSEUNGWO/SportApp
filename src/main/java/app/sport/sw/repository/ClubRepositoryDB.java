@@ -1,12 +1,13 @@
 package app.sport.sw.repository;
 
 import app.sport.sw.domain.group.Club;
+import app.sport.sw.exception.club.ClubException;
 import app.sport.sw.jparepository.JpaClubRepository;
+import app.sport.sw.response.ClubError;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -15,8 +16,8 @@ public class ClubRepositoryDB implements ClubRepository {
     private final JpaClubRepository jpaClubRepository;
 
     @Override
-    public Optional<Club> findById(long clubId) {
-        return jpaClubRepository.findById(clubId);
+    public Club findById(long clubId) {
+        return jpaClubRepository.findById(clubId).orElseThrow(() -> new ClubException(ClubError.CLUB_NOT_EXISTS));
     }
 
     @Override

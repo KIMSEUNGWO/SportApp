@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface ClubRepository {
 
-    Optional<Club> findById(long clubId);
+    Club findById(long clubId);
 
     void save(Club saveClub);
 

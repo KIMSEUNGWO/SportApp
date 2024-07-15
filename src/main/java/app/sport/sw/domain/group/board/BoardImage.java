@@ -2,6 +2,8 @@ package app.sport.sw.domain.group.board;
 
 import app.sport.sw.domain.BaseEntityImage;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -9,6 +11,8 @@ import lombok.NoArgsConstructor;
 @Table(name = "BOARD")
 @NoArgsConstructor
 @Getter
+@Builder
+@AllArgsConstructor
 public class BoardImage extends BaseEntityImage {
 
     @Id

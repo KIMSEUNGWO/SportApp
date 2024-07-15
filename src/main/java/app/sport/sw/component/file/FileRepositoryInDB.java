@@ -18,10 +18,10 @@ public class FileRepositoryInDB implements FileRepository {
 
 
     @Override
-    public void upload(MultipartFile file, FileType fileType, String storeName) throws IOException {
+    public void upload(MultipartFile file, FileType fileType, String storeName, String thumbnailName) throws IOException {
 
         String originalPath = filePathHelper.getOriginalPath(storeName, fileType);
-        String thumbnailPath = filePathHelper.getThumbnailPath(storeName, fileType);
+        String thumbnailPath = filePathHelper.getThumbnailPath(thumbnailName, fileType);
 
         System.out.println("originalPath = " + originalPath);
         System.out.println("thumbnailPath = " + thumbnailPath);
@@ -36,11 +36,11 @@ public class FileRepositoryInDB implements FileRepository {
     }
 
     @Override
-    public void delete(String storeName, FileType fileType) {
+    public void delete(String storeName, String thumbnailName, FileType fileType) {
         if (storeName == null) return;
 
         String originalPath = filePathHelper.getOriginalPath(storeName, fileType);
-        String thumbnailPath = filePathHelper.getThumbnailPath(storeName, fileType);
+        String thumbnailPath = filePathHelper.getThumbnailPath(thumbnailName, fileType);
 
         boolean originalImageDelete = new File(originalPath).delete();
         boolean thumbnailImageDelete = new File(thumbnailPath).delete();

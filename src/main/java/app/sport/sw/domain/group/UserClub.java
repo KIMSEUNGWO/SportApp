@@ -21,10 +21,12 @@ public class UserClub extends BaseEntityTime {
     @Column(name = "USER_CLUB_ID")
     private long id;
 
+    @Getter
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CLUB_ID")
     private Club club;
 
+    @Getter
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MEMBER_ID")
     private User user;

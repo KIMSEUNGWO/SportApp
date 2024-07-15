@@ -157,8 +157,6 @@ public class ClubServiceImpl implements ClubService {
     }
 
     private Club findByClubId(long clubId) {
-        return clubRepository
-            .findById(clubId)
-            .orElseThrow(() -> new ClubException(ClubError.CLUB_NOT_EXISTS));
+        return clubRepository.findById(clubId);
     }
 }
