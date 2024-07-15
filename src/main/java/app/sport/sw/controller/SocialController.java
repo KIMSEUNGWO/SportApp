@@ -1,6 +1,5 @@
 package app.sport.sw.controller;
 
-import app.sport.sw.api.LineAPI;
 import app.sport.sw.api.LineProfile;
 import app.sport.sw.component.AccessTokenVerifer;
 import app.sport.sw.component.JwtUtil;
@@ -8,17 +7,16 @@ import app.sport.sw.component.SecurityUtil;
 import app.sport.sw.domain.user.User;
 import app.sport.sw.dto.Response;
 import app.sport.sw.dto.ResponseData;
-import app.sport.sw.dto.user.CustomUserDetails;
 import app.sport.sw.dto.user.ResponseToken;
 import app.sport.sw.dto.user.SocialLoginDto;
+import app.sport.sw.response.SuccessCode;
+import app.sport.sw.response.UserCode;
 import app.sport.sw.service.SignupService;
 import app.sport.sw.service.SocialService;
 import app.sport.sw.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -51,7 +49,7 @@ public class SocialController {
             User register = signupService.register(loginDto, profile);
             securityUtil.saveUserInSecurityContext(loginDto);
             ResponseToken responseToken = jwtUtil.initToken(register);
-            return ResponseEntity.ok(new ResponseData<>("REGISTER", responseToken));
+            return ResponseEntity.ok(new ResponseData<>(UserCode.REGISTER, responseToken));
         }
 
         User user = findUser.get();
@@ -60,7 +58,7 @@ public class SocialController {
 
         ResponseToken responseToken = jwtUtil.initToken(user);
 
-        return ResponseEntity.ok(new ResponseData<>("OK", responseToken));
+        return ResponseEntity.ok(new ResponseData<>(SuccessCode.OK, responseToken));
     }
 
     @PostMapping("/token")

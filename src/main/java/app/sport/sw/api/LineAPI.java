@@ -4,7 +4,7 @@ import app.sport.sw.Const;
 import app.sport.sw.api.exception.SocialError;
 import app.sport.sw.api.exception.SocialException;
 import app.sport.sw.component.ResponseTo;
-import app.sport.sw.exception.TokenError;
+import app.sport.sw.response.TokenError;
 import app.sport.sw.exception.TokenException;
 import lombok.*;
 import org.springframework.beans.factory.annotation.Value;

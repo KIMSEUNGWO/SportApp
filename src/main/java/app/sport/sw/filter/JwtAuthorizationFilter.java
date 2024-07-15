@@ -3,8 +3,8 @@ package app.sport.sw.filter;
 import app.sport.sw.component.JwtUtil;
 import app.sport.sw.component.SecurityUtil;
 import app.sport.sw.dto.Response;
-import app.sport.sw.dto.user.CustomUserDetails;
 import app.sport.sw.exception.TokenException;
+import app.sport.sw.response.ResponseCode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -13,14 +13,10 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 
 @Component
@@ -48,16 +44,16 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
         } catch (TokenException e) {
             System.out.println("TokenException 발생!! :" + e.getMessage());
-            setErrorResponse(response,e.getMessage());
+            setErrorResponse(response, e.getResponseCode());
         }
 
 
     }
 
-    private void setErrorResponse(HttpServletResponse response, String message) {
+    private void setErrorResponse(HttpServletResponse response, ResponseCode responseCode) {
         response.setStatus(HttpStatus.BAD_REQUEST.value());
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-        Response result = new Response(message);
+        Response result = new Response(responseCode);
         try{
             response.getWriter()
                 .write(mapper.writeValueAsString(result));

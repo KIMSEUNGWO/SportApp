@@ -5,6 +5,7 @@ import app.sport.sw.dto.ResponseData;
 import app.sport.sw.dto.user.CustomUserDetails;
 import app.sport.sw.dto.user.EditProfileRequest;
 import app.sport.sw.dto.user.ResponseProfile;
+import app.sport.sw.response.SuccessCode;
 import app.sport.sw.service.SignupService;
 import app.sport.sw.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -23,14 +24,14 @@ public class UserController {
     @GetMapping("/profile")
     public ResponseEntity<Response> getProfile(@AuthenticationPrincipal CustomUserDetails userDetails) {
         ResponseProfile profile = userService.getUserProfile(userDetails.getUser().getId());
-        return ResponseEntity.ok(new ResponseData<>("OK", profile));
+        return ResponseEntity.ok(new ResponseData<>(SuccessCode.OK, profile));
     }
 
     @PostMapping("/edit")
     public ResponseEntity<Response> editProfile(@AuthenticationPrincipal CustomUserDetails userDetails,
                                               @ModelAttribute EditProfileRequest editProfileRequest) {
         userService.editUserProfile(userDetails.getUser().getId(), editProfileRequest);
-        return ResponseEntity.ok(new Response("OK"));
+        return ResponseEntity.ok(new Response(SuccessCode.OK));
     }
 
 }

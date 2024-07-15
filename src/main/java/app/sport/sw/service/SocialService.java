@@ -1,10 +1,9 @@
 package app.sport.sw.service;
 
-import app.sport.sw.api.LineProfile;
 import app.sport.sw.component.JwtUtil;
 import app.sport.sw.domain.user.User;
 import app.sport.sw.dto.user.SocialLoginDto;
-import app.sport.sw.exception.TokenError;
+import app.sport.sw.response.TokenError;
 import app.sport.sw.exception.TokenException;
 import app.sport.sw.repository.SocialRepository;
 import lombok.RequiredArgsConstructor;

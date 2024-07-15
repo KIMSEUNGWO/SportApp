@@ -2,6 +2,7 @@ package app.sport.sw.controller;
 
 import app.sport.sw.dto.Response;
 import app.sport.sw.dto.ResponseData;
+import app.sport.sw.response.SuccessCode;
 import app.sport.sw.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,6 @@ public class DistinctController {
         System.out.println("DistinctCheck nickname: " + nickname);
         boolean isDistinct = userService.distinctNickname(nickname);
         System.out.println("isDistinct = " + isDistinct);
-        return ResponseEntity.ok(new ResponseData<>("OK", isDistinct));
+        return ResponseEntity.ok(new ResponseData<>(SuccessCode.OK, isDistinct));
     }
 }

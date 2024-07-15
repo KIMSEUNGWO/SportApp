@@ -1,11 +1,14 @@
 package app.sport.sw.dto;
 
-import lombok.AllArgsConstructor;
+import app.sport.sw.response.ResponseCode;
 import lombok.Getter;
 
 @Getter
-@AllArgsConstructor
 public class Response {
 
     private final String result;
+
+    public Response(ResponseCode responseCode) {
+        this.result = responseCode.getResult();
+    }
 }

@@ -1,5 +1,6 @@
 package app.sport.sw.dto;
 
+import app.sport.sw.response.ResponseCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,8 +10,8 @@ public class ResponseData<T> extends Response {
 
     private T data;
 
-    public ResponseData(String result, T data) {
-        super(result);
+    public ResponseData(ResponseCode responseCode, T data) {
+        super(responseCode);
         this.data = data;
     }
 }

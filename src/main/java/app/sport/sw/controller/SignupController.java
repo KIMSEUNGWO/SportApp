@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import static app.sport.sw.response.SuccessCode.*;
+
 @RestController
 @RequiredArgsConstructor
 public class SignupController {
@@ -25,13 +27,13 @@ public class SignupController {
             @RequestBody RegisterRequest registerRequest) {
         System.out.println("registerRequest = " + registerRequest);
         signupService.insertExtraData(userDetails.getUser().getId(), registerRequest);
-        return ResponseEntity.ok(new Response("OK"));
+        return ResponseEntity.ok(new Response(OK));
     }
 
     @DeleteMapping("/register/clear")
     public ResponseEntity<Response> registerClear(@AuthenticationPrincipal CustomUserDetails userDetails) {
         boolean result = signupService.registerClear(userDetails.getUser().getId());
         System.out.println("result = " + result);
-        return ResponseEntity.ok(new ResponseData<>("OK", result));
+        return ResponseEntity.ok(new ResponseData<>(OK, result));
     }
 }
