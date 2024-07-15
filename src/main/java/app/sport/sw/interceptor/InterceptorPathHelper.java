@@ -1,6 +1,8 @@
 package app.sport.sw.interceptor;
 
+import app.sport.sw.exception.board.BoardException;
 import app.sport.sw.exception.club.ClubException;
+import app.sport.sw.response.BoardError;
 import app.sport.sw.response.ClubError;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Component;
@@ -18,6 +20,21 @@ public class InterceptorPathHelper {
             return Long.parseLong(replace);
         } catch (NumberFormatException e) {
             throw new ClubException(ClubError.CLUB_NOT_EXISTS);
+        }
+    }
+
+    public long getBoardId(HttpServletRequest request) {
+        String requestURI = request.getRequestURI();
+        String replace = requestURI
+                .replaceAll("/club/[*]+/", "")
+                .replace("/board/", "");
+        int index = replace.indexOf("/");
+        if (index != -1) replace = replace.substring(0, index);
+
+        try {
+            return Long.parseLong(replace);
+        } catch (NumberFormatException e) {
+            throw new BoardException(BoardError.BOARD_NOT_EXISTS);
         }
     }
 

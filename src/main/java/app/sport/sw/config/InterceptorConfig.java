@@ -1,11 +1,10 @@
 package app.sport.sw.config;
 
+import app.sport.sw.interceptor.BoardExistsInterceptor;
 import app.sport.sw.interceptor.ClubExistsInterceptor;
 import app.sport.sw.interceptor.ClubJoinInterceptor;
 import app.sport.sw.interceptor.ClubOwnerInterceptor;
-import app.sport.sw.jparepository.JpaClubRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -18,6 +17,8 @@ public class InterceptorConfig implements WebMvcConfigurer {
     private final ClubJoinInterceptor clubJoinInterceptor;
     private final ClubOwnerInterceptor clubOwnerInterceptor;
 
+    private final BoardExistsInterceptor boardExistsInterceptor;
+
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         // 모임이 존재하는지 확인하는 인터셉터
@@ -28,15 +29,22 @@ public class InterceptorConfig implements WebMvcConfigurer {
 
         // 모임에 참가중인지 확인하는 인터셉터
         registry.addInterceptor(clubJoinInterceptor)
-            .order(2)
-            .addPathPatterns("/club/**")
-            .excludePathPatterns(
-                "/club/*", "/club/*/join", "/club/*/board", "/club/*/edit", "/club/*/delete"
-            );
+                .order(2)
+                .addPathPatterns("/club/**")
+                .excludePathPatterns(
+                    "/club/*", "/club/*/join", "/club/*/board", "/club/*/edit", "/club/*/delete"
+                );
 
         // 모임장인지 확인하는 인터셉터
         registry.addInterceptor(clubOwnerInterceptor)
-            .order(3)
-            .addPathPatterns("/club/*/edit", "/club/*/delete");
+                .order(3)
+                .addPathPatterns("/club/*/edit", "/club/*/delete");
+
+
+        // 게시물이 존재하는지 확인하는 인터셉터
+        registry.addInterceptor(boardExistsInterceptor)
+                .order(4)
+                .addPathPatterns("/club/*/board/**")
+                .excludePathPatterns("/club/*/board", "/club/*/board/add");
     }
 }

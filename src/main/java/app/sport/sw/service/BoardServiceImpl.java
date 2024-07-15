@@ -32,7 +32,7 @@ public class BoardServiceImpl implements BoardService {
     private final AuthorityClubChecker clubChecker;
 
     @Override
-    public void createBoard(long clubId, CustomUserDetails userDetails, BoardCreateRequest createRequest) {
+    public long createBoard(long clubId, CustomUserDetails userDetails, BoardCreateRequest createRequest) {
 
         UserClub userClub = userClubRepository
                 .findByClubIdAndUserId(clubId, userDetails)
@@ -62,5 +62,6 @@ public class BoardServiceImpl implements BoardService {
             fileService.saveBoardImages(images.subList(0, Math.min(4, images.size())), saveBoard);
         }
 
+        return saveBoard.getId();
     }
 }
