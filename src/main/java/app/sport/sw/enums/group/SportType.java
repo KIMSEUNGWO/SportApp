@@ -12,7 +12,8 @@ public enum SportType {
     BASEBALL("baseball"),
     TENNIS("tennis"),
     BADMINTON("badminton"),
-    BASKETBALL("basketball");
+    BASKETBALL("basketball"),
+    RUNNING("running");
 
     private String lang;
 

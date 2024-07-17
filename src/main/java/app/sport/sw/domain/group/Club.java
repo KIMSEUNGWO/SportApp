@@ -6,7 +6,7 @@ import app.sport.sw.domain.user.User;
 import app.sport.sw.domain.group.region.ClubRegion;
 import app.sport.sw.enums.ClubGrade;
 import app.sport.sw.enums.group.SportType;
-import app.sport.sw.exception.club.ClubException;
+import app.sport.sw.exception.ClubException;
 import app.sport.sw.response.ClubError;
 import jakarta.persistence.*;
 import lombok.*;
@@ -48,7 +48,7 @@ public class Club extends BaseEntityTime {
     @JoinColumn(name = "CLUB_IMAGE_ID")
     private ClubImage clubImage;
 
-    @OneToMany(mappedBy = "club", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "club", cascade = CascadeType.ALL)
     private List<UserClub> userClubList = new ArrayList<>();
 
     @OneToMany(mappedBy = "club")

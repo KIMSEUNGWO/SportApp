@@ -30,6 +30,7 @@ public class UserController {
     @PostMapping("/edit")
     public ResponseEntity<Response> editProfile(@AuthenticationPrincipal CustomUserDetails userDetails,
                                               @ModelAttribute EditProfileRequest editProfileRequest) {
+        System.out.println("???");
         userService.editUserProfile(userDetails.getUser().getId(), editProfileRequest);
         return ResponseEntity.ok(new Response(SuccessCode.OK));
     }

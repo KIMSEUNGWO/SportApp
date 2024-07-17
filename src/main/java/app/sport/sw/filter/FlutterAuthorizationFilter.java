@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.web.servlet.NoHandlerFoundException;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -28,8 +29,7 @@ public class FlutterAuthorizationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        System.out.println("FlutterAuthorizationFilter 시작");
-
+        System.out.println("FlutterAuthorizationFilter 시작 : 요청 URI = " + request.getRequestURI());
         String apiKey = request.getHeader(HEADER_NAME);
 
         if (!API_KEY.equals(apiKey)) {

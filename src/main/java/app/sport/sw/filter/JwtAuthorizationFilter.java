@@ -32,6 +32,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     private final List<String> excludePath = List.of(
         "/favicon.ico",
         "/social/login",
+        "/register",
         "/social/token",
         "/images/",
         "/distinct/"

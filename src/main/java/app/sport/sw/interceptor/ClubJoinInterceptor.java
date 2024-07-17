@@ -2,7 +2,7 @@ package app.sport.sw.interceptor;
 
 import app.sport.sw.dto.user.CustomUserDetails;
 import app.sport.sw.enums.Role;
-import app.sport.sw.exception.club.ClubException;
+import app.sport.sw.exception.ClubException;
 import app.sport.sw.jparepository.JpaUserClubRepository;
 import app.sport.sw.response.ClubError;
 import jakarta.servlet.http.HttpServletRequest;

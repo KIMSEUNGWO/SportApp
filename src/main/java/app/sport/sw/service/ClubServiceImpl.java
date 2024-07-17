@@ -18,7 +18,7 @@ import app.sport.sw.enums.ClubGrade;
 import app.sport.sw.repository.UserClubRepository;
 import app.sport.sw.repository.UserRepository;
 import app.sport.sw.response.ClubError;
-import app.sport.sw.exception.club.ClubException;
+import app.sport.sw.exception.ClubException;
 import app.sport.sw.repository.ClubRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

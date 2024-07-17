@@ -9,7 +9,7 @@ import app.sport.sw.dto.user.CustomUserDetails;
 import app.sport.sw.enums.Authority;
 import app.sport.sw.enums.group.BoardType;
 import app.sport.sw.exception.VIPException;
-import app.sport.sw.exception.club.ClubException;
+import app.sport.sw.exception.ClubException;
 import app.sport.sw.repository.BoardRepository;
 import app.sport.sw.repository.UserClubRepository;
 import app.sport.sw.response.ClubError;

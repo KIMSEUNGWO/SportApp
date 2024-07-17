@@ -1,4 +1,4 @@
-package app.sport.sw.exception.board;
+package app.sport.sw.exception;
 
 import app.sport.sw.response.BoardError;
 import lombok.Getter;

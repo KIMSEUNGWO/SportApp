@@ -38,7 +38,7 @@ public class SocialController {
 
     @PostMapping("/login")
     public ResponseEntity<Response> login(@RequestBody @Validated SocialLoginDto loginDto) {
-
+        System.out.println("SocialController.login");
         // Line API 에서 사용자 정보 검증 및 가져오기
         LineProfile profile = tokenVerifer.getLineProfile(loginDto.getAccessToken());
 
@@ -46,10 +46,7 @@ public class SocialController {
         Optional<User> findUser = socialService.socialLogin(loginDto);
 
         if (findUser.isEmpty()) {
-            User register = signupService.register(loginDto, profile);
-            securityUtil.saveUserInSecurityContext(loginDto);
-            ResponseToken responseToken = jwtUtil.initToken(register);
-            return ResponseEntity.ok(new ResponseData<>(UserCode.REGISTER, responseToken));
+            return ResponseEntity.ok(new Response(UserCode.REGISTER));
         }
 
         User user = findUser.get();

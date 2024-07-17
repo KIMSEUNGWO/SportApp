@@ -5,7 +5,9 @@ import app.sport.sw.component.file.FileType;
 import app.sport.sw.domain.user.User;
 import app.sport.sw.dto.user.EditProfileRequest;
 import app.sport.sw.dto.user.ResponseProfile;
+import app.sport.sw.exception.LoginException;
 import app.sport.sw.jparepository.JpaUserRepository;
+import app.sport.sw.response.UserCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,18 +24,22 @@ public class UserService {
     private final FileService fileService;
 
     public ResponseProfile getUserProfile(long userId) {
-        return jpaUserRepository.findById(userId)
-            .map(user -> ResponseProfile.builder()
-                .image(user.getImage())
-                .name(user.getNickName())
-                .intro(user.getUserInfo().getIntro())
-                .sex(user.getUserInfo().getSex())
-                .birth(user.getUserInfo().getBirthDate())
-                .groupCount(user.getUserClubList().size())
-                .inviteCount(0)
-                .likeCount(0)
-                .build()
-        ).orElse(new ResponseProfile());
+        try {
+            return jpaUserRepository.findById(userId)
+                .map(user -> ResponseProfile.builder()
+                    .image(user.getImage())
+                    .name(user.getNickName())
+                    .intro(user.getUserInfo().getIntro())
+                    .sex(user.getUserInfo().getSex())
+                    .birth(user.getUserInfo().getBirthDate())
+                    .groupCount(user.getUserClubList().size())
+                    .inviteCount(0)
+                    .likeCount(0)
+                    .build()
+            ).orElse(new ResponseProfile());
+        } catch (NullPointerException e) {
+            throw new LoginException(UserCode.REGISTER);
+        }
     }
 
     public void editUserProfile(long id, EditProfileRequest editProfileRequest) {

@@ -1,4 +1,4 @@
-package app.sport.sw.exception.club;
+package app.sport.sw.exception;
 
 import app.sport.sw.response.ClubError;
 import lombok.Getter;

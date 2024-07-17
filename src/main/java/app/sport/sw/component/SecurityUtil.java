@@ -2,6 +2,7 @@ package app.sport.sw.component;
 
 import app.sport.sw.domain.user.User;
 import app.sport.sw.dto.user.CustomUserDetails;
+import app.sport.sw.dto.user.RegisterRequest;
 import app.sport.sw.dto.user.SocialLoginDto;
 import app.sport.sw.enums.SocialProvider;
 import app.sport.sw.response.TokenError;
@@ -25,6 +26,9 @@ public class SecurityUtil {
 
     public void saveUserInSecurityContext(SocialLoginDto loginDto) {
         saveUserInSecurityContext(loginDto.getSocialId(), loginDto.getProvider());
+    }
+    public void saveUserInSecurityContext(RegisterRequest registerDto) {
+        saveUserInSecurityContext(registerDto.getSocialId(), registerDto.getProvider());
     }
 
     public void saveUserInSecurityContext(String accessToken) {

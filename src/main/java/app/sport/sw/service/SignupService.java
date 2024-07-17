@@ -23,19 +23,24 @@ import java.util.Optional;
 public class SignupService {
 
     private final JpaUserRepository userRepository;
-    private final JpaUserRepository jpaUserRepository;
 
-    public User register(SocialLoginDto loginDto, LineProfile profile) {
+    public User register(RegisterRequest register, LineProfile profile) {
 
         UserSocial userSocial = UserSocial.builder()
             .socialId(profile.getUserId())
-            .provider(loginDto.getProvider())
+            .provider(register.getProvider())
             .build();
 
+        UserInfo userInfo = UserInfo.builder()
+            .sex(register.getSex().equals("M") ? 'M' : 'F')
+            .intro(register.getIntro())
+            .birthDate(register.getBirth())
+            .build();
 
         User user = User.builder()
-            .nickName(profile.getDisplayName())
+            .nickName(register.getNickname())
             .profile(new Profile())
+            .userInfo(userInfo)
             .userSocial(userSocial)
             .role(Role.USER)
             .build();
@@ -43,35 +48,4 @@ public class SignupService {
         return userRepository.save(user);
     }
 
-    public void insertExtraData(long userId, RegisterRequest register) {
-        jpaUserRepository.findById(userId).ifPresent(user -> {
-            user.setNickName(register.getNickname());
-
-            UserInfo userInfo = UserInfo.builder()
-                .sex(register.getSex().equals("M") ? 'M' : 'F')
-                .intro(register.getIntro())
-                .birthDate(register.getBirth())
-                .build();
-
-            user.setUserInfo(userInfo);
-        });
-    }
-
-    public boolean registerClear(long id) {
-        Optional<User> findUser = jpaUserRepository.findById(id);
-        if (findUser.isEmpty()) return true;
-
-        User user = findUser.get();
-        if (user.getNickName() == null ||
-            user.getUserInfo() == null ||
-            user.getUserInfo().getIntro() == null ||
-            user.getUserInfo().getBirthDate() == null
-        ) {
-            System.out.println("Delete : " + id);
-            jpaUserRepository.deleteById(id);
-            return true;
-        }
-
-        return false;
-    }
 }

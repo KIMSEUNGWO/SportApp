@@ -1,7 +1,7 @@
 package app.sport.sw.interceptor;
 
-import app.sport.sw.exception.board.BoardException;
-import app.sport.sw.exception.club.ClubException;
+import app.sport.sw.exception.BoardException;
+import app.sport.sw.exception.ClubException;
 import app.sport.sw.response.BoardError;
 import app.sport.sw.response.ClubError;
 import jakarta.servlet.http.HttpServletRequest;

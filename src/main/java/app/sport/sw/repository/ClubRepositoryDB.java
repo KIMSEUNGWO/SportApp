@@ -1,7 +1,7 @@
 package app.sport.sw.repository;
 
 import app.sport.sw.domain.group.Club;
-import app.sport.sw.exception.club.ClubException;
+import app.sport.sw.exception.ClubException;
 import app.sport.sw.jparepository.JpaClubRepository;
 import app.sport.sw.response.ClubError;
 import lombok.RequiredArgsConstructor;
