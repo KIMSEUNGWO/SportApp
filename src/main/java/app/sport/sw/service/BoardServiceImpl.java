@@ -5,15 +5,14 @@ import app.sport.sw.component.file.FileService;
 import app.sport.sw.domain.group.UserClub;
 import app.sport.sw.domain.group.board.Board;
 import app.sport.sw.dto.board.BoardCreateRequest;
+import app.sport.sw.dto.board.ResponseBoard;
 import app.sport.sw.dto.user.CustomUserDetails;
 import app.sport.sw.enums.Authority;
 import app.sport.sw.enums.group.BoardType;
-import app.sport.sw.exception.VIPException;
 import app.sport.sw.exception.ClubException;
 import app.sport.sw.repository.BoardRepository;
 import app.sport.sw.repository.UserClubRepository;
 import app.sport.sw.response.ClubError;
-import app.sport.sw.response.VIPCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -54,14 +53,34 @@ public class BoardServiceImpl implements BoardService {
 
         boardRepository.save(saveBoard);
 
-        List<MultipartFile> images = createRequest.getImages();
+        List<MultipartFile> images = createRequest.getImage();
         if (images != null && !images.isEmpty()) {
-            if (!clubChecker.isPremium(userClub.getClub())) {
-                throw new VIPException(VIPCode.NOT_VIP_CLUB);
-            }
+//            if (!clubChecker.isPremium(userClub.getClub())) {
+//                throw new VIPException(VIPCode.NOT_VIP_CLUB);
+//            }
             fileService.saveBoardImages(images.subList(0, Math.min(4, images.size())), saveBoard);
         }
 
         return saveBoard.getId();
+    }
+
+    @Override
+    public List<ResponseBoard> getBoardList(long clubId, BoardType boardType) {
+        List<Board> boards = boardRepository.findAllByClubIdAndBoardType(clubId, boardType);
+        return boards.stream().map(board ->
+            ResponseBoard.builder()
+                .boardId(board.getId())
+                .title(board.getTitle())
+                .content(board.getContent())
+                .boardType(board.getBoardType())
+                .thumbnailBoard(board.getMainThumbnail())
+                .likeCount(0) // 좋아요 기능 활성화시 변경
+                .commentCount(board.getComments().size())
+                .createDate(board.getCreateDate())
+                .userId(board.getUser().getId())
+                .thumbnailBoard(board.getUser().getThumbnail())
+                .nickname(board.getUser().getNickName())
+                .build()
+            ).toList();
     }
 }

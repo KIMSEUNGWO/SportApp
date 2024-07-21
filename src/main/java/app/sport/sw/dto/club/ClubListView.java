@@ -11,12 +11,13 @@ import java.time.LocalDateTime;
 @Getter
 @Builder
 @AllArgsConstructor
-public class RecentlyViewClub {
+public class ClubListView {
 
+    private long id;
     private String thumbnail;
     private String title;
     private String intro;
-    private SportType sportType;
+    private SportType sport;
     private Region region;
     private int personCount;
     private LocalDateTime createDate;

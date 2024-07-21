@@ -16,7 +16,7 @@ public class FileExceptionHandler {
     public ResponseEntity<Response> maxUploadSizeExceeded(MaxUploadSizeExceededException e) {
         e.printStackTrace();
         log.error("MaxUploadSizeExceededException 예외 발생 !!");
-        return ResponseEntity.badRequest().body(new Response(FileCode.MAX_UPLOAD_SIZE_EXCEEDED));
+        return ResponseEntity.badRequest().body(new Response(FileCode.MAX_UPLOAD_SIZE_EXCEED));
     }
 
 }

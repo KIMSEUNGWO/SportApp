@@ -30,7 +30,8 @@ public class InterceptorConfig implements WebMvcConfigurer {
                 .order(2)
                 .addPathPatterns("/club/**")
                 .excludePathPatterns(
-                    "/club/*", "/club/*/join", "/club/*/board", "/club/*/edit", "/club/*/delete"
+                    "/club/*", "/club/*/join", "/club/*/board", "/club/*/edit", "/club/*/delete",
+                    "/club/*/users"
                 );
 
         // 모임장인지 확인하는 인터셉터
@@ -42,7 +43,7 @@ public class InterceptorConfig implements WebMvcConfigurer {
         registry.addInterceptor(boardExistsInterceptor)
                 .order(4)
                 .addPathPatterns("/club/*/board/**")
-                .excludePathPatterns("/club/*/board", "/club/*/board/add");
+                .excludePathPatterns("/club/*/board", "/club/*/board/create");
 
         // 게시물을 작성한 유저인지 확인하는 인터셉터 ( 그룹장, 매니저도 허용 )
         registry.addInterceptor(boardOwnerInterceptor)

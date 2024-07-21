@@ -64,6 +64,9 @@ public class User extends BaseEntityTime {
     public String getImage() {
         return profile.getStoreName();
     }
+    public String getThumbnail() {
+        return profile.getThumbnailName();
+    }
 
 }
 

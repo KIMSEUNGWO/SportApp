@@ -4,6 +4,7 @@ import app.sport.sw.component.JwtUtil;
 import app.sport.sw.component.SecurityUtil;
 import app.sport.sw.domain.group.Club;
 import app.sport.sw.dto.Response;
+import app.sport.sw.dto.user.CustomUserDetails;
 import app.sport.sw.exception.TokenException;
 import app.sport.sw.response.ResponseCode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -14,6 +15,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -37,7 +39,11 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         "/images/",
         "/distinct/"
     );
-    private final Pattern CLUB_INFO_PATTERN = Pattern.compile("^/club/[0-9]+$");
+    private final List<Pattern> excludePatterns = List.of(
+        Pattern.compile("^/club/[0-9]+$"), // CLUB_INFO_PATTERN
+        Pattern.compile("^/club/[0-9]+/users"),
+        Pattern.compile("^/club/[0-9]+/board")
+    );
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -48,7 +54,8 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             checkAccessTokenValid(request);
             filterChain.doFilter(request, response);
         } catch (TokenException e) {
-            if (CLUB_INFO_PATTERN.matcher(request.getRequestURI()).matches()) {
+            String requestURI = request.getRequestURI();
+            if (isExcludedPattern(requestURI)) {
                 filterChain.doFilter(request, response);
             } else {
                 System.out.println("TokenException 발생!! :" + e.getMessage());
@@ -57,6 +64,13 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         }
 
 
+    }
+
+    private boolean isExcludedPattern(String requestURI) {
+        for (Pattern pattern : excludePatterns) {
+            if (pattern.matcher(requestURI).matches()) return true;
+        }
+        return false;
     }
 
     private void setErrorResponse(HttpServletResponse response, ResponseCode responseCode) {

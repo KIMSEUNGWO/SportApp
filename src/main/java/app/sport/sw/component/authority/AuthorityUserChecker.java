@@ -42,7 +42,7 @@ public class AuthorityUserChecker {
         boolean isVip = getAuthority(userDetails);
 
         int possibleLimitPerson = isVip ? vipLimitPerson : defaultLimitPerson;
-        if (possibleLimitPerson <= limitPerson) {
+        if (possibleLimitPerson < limitPerson) {
             throw new ClubException(ClubError.EXCEED_LIMIT_PERSON);
         }
     }

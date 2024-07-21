@@ -85,7 +85,7 @@ public class JwtUtil {
 
 
     public void validateAccessToken(String accessToken) {
-        if (accessToken == null || accessToken.isEmpty()) {
+        if (accessToken == null || accessToken.isEmpty() || accessToken.equalsIgnoreCase("null")) {
             throw new TokenException(TokenError.ACCESS_TOKEN_REQUIRE);
         }
 

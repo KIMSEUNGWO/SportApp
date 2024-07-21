@@ -38,7 +38,7 @@ public class SocialController {
 
     @PostMapping("/login")
     public ResponseEntity<Response> login(@RequestBody @Validated SocialLoginDto loginDto) {
-        System.out.println("SocialController.login");
+
         // Line API 에서 사용자 정보 검증 및 가져오기
         LineProfile profile = tokenVerifer.getLineProfile(loginDto.getAccessToken());
 

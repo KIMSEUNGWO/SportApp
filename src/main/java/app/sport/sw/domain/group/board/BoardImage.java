@@ -8,7 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "BOARD")
+@Table(name = "BOARD_IMAGE")
 @NoArgsConstructor
 @Getter
 @Builder

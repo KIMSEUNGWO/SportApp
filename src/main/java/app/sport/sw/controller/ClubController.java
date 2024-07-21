@@ -5,6 +5,7 @@ import app.sport.sw.dto.Response;
 import app.sport.sw.dto.ResponseData;
 import app.sport.sw.dto.club.ClubCreateRequest;
 import app.sport.sw.dto.club.ClubEditRequest;
+import app.sport.sw.dto.club.ResponseClubUser;
 import app.sport.sw.dto.club.DefaultClubInfo;
 import app.sport.sw.dto.user.CustomUserDetails;
 import app.sport.sw.response.ClubError;
@@ -41,12 +42,13 @@ public class ClubController {
         return ResponseEntity.ok(new ResponseData<>(SuccessCode.OK, clubId));
     }
 
-    @PatchMapping("/{clubId}/edit")
+    @PostMapping("/{clubId}/edit")
     public ResponseEntity<Response> editClub(
                 @PathVariable("clubId") long clubId,
                 @Validated @ModelAttribute ClubEditRequest clubEditRequest,
                  BindingResult bindingResult) {
 
+        System.out.println("clubEditRequest = " + clubEditRequest);
         if (bindingResult.hasErrors()) {
             List<String> fieldNames = BindingField.getFieldNames(bindingResult);
             return ResponseEntity.badRequest().body(new ResponseData<>(ClubError.INVALID_DATA, fieldNames));
@@ -63,9 +65,17 @@ public class ClubController {
 
 
     @GetMapping("/{clubId}")
-    public ResponseEntity<DefaultClubInfo> defaultGroupData(@PathVariable("clubId") long clubId,
-                                                            @AuthenticationPrincipal CustomUserDetails userDetails) {
+    public ResponseEntity<Response> defaultGroupData(@PathVariable("clubId") long clubId,
+                                                     @AuthenticationPrincipal CustomUserDetails userDetails) {
+        DefaultClubInfo clubData = clubService.getClubData(clubId, userDetails);
+        System.out.println("clubData = " + clubData);
+        return ResponseEntity.ok(new ResponseData<>(SuccessCode.OK, clubData));
+    }
 
-        return ResponseEntity.ok(clubService.getClubData(clubId, userDetails));
+    @GetMapping("/{clubId}/users")
+    public ResponseEntity<Response> getClubUsers(@PathVariable("clubId") long clubId) {
+
+        List<ResponseClubUser> clubUsers = clubService.getClubUsers(clubId);
+        return ResponseEntity.ok(new ResponseData<>(SuccessCode.OK, clubUsers));
     }
 }

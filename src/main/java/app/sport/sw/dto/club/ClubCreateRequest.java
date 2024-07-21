@@ -25,6 +25,6 @@ public class ClubCreateRequest {
     private String intro;
 
     @Min(3)
-    @Max(10)
+    @Max(100)
     private int limitPerson = 10;
 }

@@ -36,6 +36,7 @@ public class FileService {
             fileRepository.delete(imageEntity.getStoreName(), imageEntity.getThumbnailName(), fileType);
             fileRepository.upload(file, fileType, storeName, thumbnailName);
         } catch (IOException e) {
+            e.printStackTrace();
             throw new FileUploadException(FileCode.FAILED_TO_UPLOAD_FILE);
         }
 
@@ -56,6 +57,7 @@ public class FileService {
             try {
                 fileRepository.upload(file, FileType.BOARD_IMAGE, storeName, thumbnailName);
             } catch (IOException e) {
+                e.printStackTrace();
                 throw new FileUploadException(FileCode.FAILED_TO_UPLOAD_FILE);
             }
 

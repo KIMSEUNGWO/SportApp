@@ -1,5 +1,6 @@
 package app.sport.sw.enums.group;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -12,5 +13,13 @@ public enum BoardType {
     OPEN_BOARD("openBoard");
 
     private final String lang;
+
+    @JsonCreator
+    public static BoardType fromJson(String data) {
+        for (BoardType boardType : BoardType.values()) {
+            if (boardType.name().equals(data)) return boardType;
+        }
+        return null;
+    }
 
 }

@@ -44,4 +44,9 @@ public class Board extends BaseEntityTime {
 
     @OneToMany(mappedBy = "board")
     private List<Comment> comments = new ArrayList<>();
+
+    public String getMainThumbnail() {
+        if (boardImages.isEmpty()) return null;
+        return boardImages.get(0).getThumbnailName();
+    }
 }

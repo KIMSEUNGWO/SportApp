@@ -8,10 +8,7 @@ import app.sport.sw.domain.group.ClubImage;
 import app.sport.sw.domain.group.UserClub;
 import app.sport.sw.domain.group.region.ClubRegion;
 import app.sport.sw.domain.user.User;
-import app.sport.sw.dto.club.ClubCreateRequest;
-import app.sport.sw.dto.club.ClubEditRequest;
-import app.sport.sw.dto.club.DefaultClubInfo;
-import app.sport.sw.dto.club.RecentlyViewClub;
+import app.sport.sw.dto.club.*;
 import app.sport.sw.dto.user.CustomUserDetails;
 import app.sport.sw.enums.Authority;
 import app.sport.sw.enums.ClubGrade;
@@ -20,6 +17,7 @@ import app.sport.sw.repository.UserRepository;
 import app.sport.sw.response.ClubError;
 import app.sport.sw.exception.ClubException;
 import app.sport.sw.repository.ClubRepository;
+import app.sport.sw.wrappers.ClubToClubListViewWrapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,14 +41,15 @@ public class ClubServiceImpl implements ClubService {
         Club club = findByClubId(clubId);
 
         Optional<UserClub> findUserClub = userClubRepository.findByClubIdAndUserId(clubId, userDetails);
-
         return DefaultClubInfo.builder()
+            .id(clubId)
             .image(club.getClubImage().getStoreName())
             .title(club.getTitle())
             .intro(club.getIntro())
             .sport(club.getSportType())
             .region(club.getClubRegion().getRegion())
             .personCount(club.getPersonCount())
+            .maxPerson(club.getLimitPerson())
             .authority(findUserClub.map(UserClub::getAuthority).orElse(null))
             .build();
     }
@@ -90,19 +89,9 @@ public class ClubServiceImpl implements ClubService {
     }
 
     @Override
-    public List<RecentlyViewClub> findByClubs(List<Long> clubIds) {
+    public List<ClubListView> findByClubs(List<Long> clubIds) {
         List<Club> clubs = clubRepository.findAllByIds(clubIds);
-        return clubs.stream().map(club ->
-            RecentlyViewClub.builder()
-                .thumbnail(club.getClubImage().getThumbnailName())
-                .title(club.getTitle())
-                .intro(club.getIntro())
-                .sportType(club.getSportType())
-                .region(club.getClubRegion().getRegion())
-                .createDate(club.getCreateDate())
-                .personCount(club.getPersonCount())
-                .build()
-        ).toList();
+        return clubs.stream().map(ClubToClubListViewWrapper::wrapper).toList();
     }
 
     @Override
@@ -115,9 +104,6 @@ public class ClubServiceImpl implements ClubService {
         if (clubEditRequest.getTitle() != null) {
             club.setTitle(clubEditRequest.getTitle());
         }
-        if (clubEditRequest.getIntro() != null) {
-            club.setIntro(clubEditRequest.getIntro());
-        }
         if (clubEditRequest.getSportType() != null) {
             club.setSportType(clubEditRequest.getSportType());
         }
@@ -128,6 +114,7 @@ public class ClubServiceImpl implements ClubService {
             club.setLimitPerson(clubEditRequest.getLimitPerson());
         }
 
+        club.setIntro(clubEditRequest.getIntro());
 
     }
 
@@ -154,6 +141,29 @@ public class ClubServiceImpl implements ClubService {
             .build();
 
         userClubRepository.save(saveUserClub);
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public List<ClubListView> getMyClubs(long userId) {
+        List<UserClub> myClubs = userClubRepository.findByUserId(userId);
+        return myClubs.stream()
+            .map(userClub -> ClubToClubListViewWrapper.wrapper(userClub.getClub()))
+            .toList();
+    }
+
+    @Override
+    public List<ResponseClubUser> getClubUsers(long clubId) {
+        List<UserClub> userClubs = userClubRepository.findByClubId(clubId);
+        return userClubs.stream()
+            .map(userClub -> ResponseClubUser.builder()
+                .userId(userClub.getUser().getId())
+                .thumbnail(userClub.getUser().getThumbnail())
+                .nickname(userClub.getUser().getNickName())
+                .authority(userClub.getAuthority())
+                .build())
+            .sorted(new ResponseClubUser.Comparator())
+            .toList();
     }
 
     private Club findByClubId(long clubId) {
