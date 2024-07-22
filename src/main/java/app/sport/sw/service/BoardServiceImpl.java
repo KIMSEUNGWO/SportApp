@@ -14,6 +14,7 @@ import app.sport.sw.repository.BoardRepository;
 import app.sport.sw.repository.UserClubRepository;
 import app.sport.sw.response.ClubError;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -65,8 +66,8 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public List<ResponseBoard> getBoardList(long clubId, BoardType boardType) {
-        List<Board> boards = boardRepository.findAllByClubIdAndBoardType(clubId, boardType);
+    public List<ResponseBoard> getBoardList(long clubId, BoardType boardType, Pageable pageable) {
+        List<Board> boards = boardRepository.findAllByClubIdAndBoardType(clubId, boardType, pageable);
         return boards.stream().map(board ->
             ResponseBoard.builder()
                 .boardId(board.getId())

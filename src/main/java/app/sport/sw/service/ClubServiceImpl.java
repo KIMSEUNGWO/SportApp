@@ -1,5 +1,6 @@
 package app.sport.sw.service;
 
+import app.sport.sw.component.Constant;
 import app.sport.sw.component.authority.AuthorityUserChecker;
 import app.sport.sw.component.file.FileService;
 import app.sport.sw.component.file.FileType;
@@ -44,12 +45,14 @@ public class ClubServiceImpl implements ClubService {
         return DefaultClubInfo.builder()
             .id(clubId)
             .image(club.getClubImage().getStoreName())
+            .thumbnail(club.getClubImage().getThumbnailName())
             .title(club.getTitle())
             .intro(club.getIntro())
             .sport(club.getSportType())
             .region(club.getClubRegion().getRegion())
             .personCount(club.getPersonCount())
             .maxPerson(club.getLimitPerson())
+            .createDate(club.getCreateDate())
             .authority(findUserClub.map(UserClub::getAuthority).orElse(null))
             .build();
     }
@@ -58,7 +61,6 @@ public class ClubServiceImpl implements ClubService {
     public synchronized long createClub(CustomUserDetails userDetails, ClubCreateRequest createRequest) {
         long userId = userDetails.getUser().getId();
         authorityUserChecker.validMaxJoinCount(userDetails);
-        authorityUserChecker.validLimitPersonCount(userDetails, createRequest.getLimitPerson());
 
         User user = userRepository.findByUserId(userId);
 
@@ -69,7 +71,7 @@ public class ClubServiceImpl implements ClubService {
             .intro(createRequest.getIntro())
             .sportType(createRequest.getSportType())
             .owner(user)
-            .limitPerson(createRequest.getLimitPerson())
+            .limitPerson(Constant.ClUB_MAX_PERSON_COUNT)
             .clubImage(new ClubImage())
             .clubRegion(clubRegion)
             .grade(ClubGrade.NORMAL)
@@ -109,9 +111,6 @@ public class ClubServiceImpl implements ClubService {
         }
         if (clubEditRequest.getRegion() != null) {
             club.getClubRegion().setRegion(clubEditRequest.getRegion());
-        }
-        if (clubEditRequest.getLimitPerson() != null) {
-            club.setLimitPerson(clubEditRequest.getLimitPerson());
         }
 
         club.setIntro(clubEditRequest.getIntro());

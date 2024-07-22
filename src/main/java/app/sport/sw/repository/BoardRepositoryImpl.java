@@ -6,6 +6,7 @@ import app.sport.sw.exception.BoardException;
 import app.sport.sw.jparepository.JpaBoardRepository;
 import app.sport.sw.response.BoardError;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -28,8 +29,9 @@ public class BoardRepositoryImpl implements BoardRepository {
     }
 
     @Override
-    public List<Board> findAllByClubIdAndBoardType(long clubId, BoardType boardType) {
-        return jpaBoardRepository.findAllByClub_IdAndBoardType(clubId, boardType);
+    public List<Board> findAllByClubIdAndBoardType(long clubId, BoardType boardType, Pageable pageable) {
+        if (boardType == null) return jpaBoardRepository.findAllByClub_IdOrderByIdDesc(clubId, pageable);
+        return jpaBoardRepository.findAllByClub_IdAndBoardTypeOrderByIdDesc(clubId, boardType, pageable);
     }
 
 }

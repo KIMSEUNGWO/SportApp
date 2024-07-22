@@ -4,12 +4,14 @@ import app.sport.sw.enums.group.BoardType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 
 @Getter
 @Builder
 @AllArgsConstructor
+@ToString
 public class ResponseBoard {
 
     private final long boardId;

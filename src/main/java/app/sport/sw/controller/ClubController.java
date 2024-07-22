@@ -48,7 +48,6 @@ public class ClubController {
                 @Validated @ModelAttribute ClubEditRequest clubEditRequest,
                  BindingResult bindingResult) {
 
-        System.out.println("clubEditRequest = " + clubEditRequest);
         if (bindingResult.hasErrors()) {
             List<String> fieldNames = BindingField.getFieldNames(bindingResult);
             return ResponseEntity.badRequest().body(new ResponseData<>(ClubError.INVALID_DATA, fieldNames));

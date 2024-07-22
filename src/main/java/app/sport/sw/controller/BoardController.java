@@ -11,6 +11,7 @@ import app.sport.sw.response.ClubError;
 import app.sport.sw.response.SuccessCode;
 import app.sport.sw.service.BoardService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
@@ -27,13 +28,10 @@ public class BoardController {
     private final BoardService boardService;
 
     @PostMapping("/create")
-    public ResponseEntity<Response> noticeCreate(
-            @PathVariable("clubId") long clubId,
+    public ResponseEntity<Response> noticeCreate(@PathVariable("clubId") long clubId,
             @AuthenticationPrincipal CustomUserDetails userDetails,
             @Validated @ModelAttribute BoardCreateRequest createRequest,
             BindingResult bindingResult) {
-
-        System.out.println("createRequest = " + createRequest);
 
         if (bindingResult.hasErrors()) {
             List<String> fieldNames = BindingField.getFieldNames(bindingResult);
@@ -41,16 +39,16 @@ public class BoardController {
         }
 
         boardService.createBoard(clubId, userDetails, createRequest);
-
-
         return ResponseEntity.ok(new Response(SuccessCode.OK));
     }
 
     @GetMapping
     public ResponseEntity<Response> getBoardList(@PathVariable("clubId") long clubId,
-                                                 @RequestParam("boardType") BoardType boardType) {
-
-        List<ResponseBoard> boardList = boardService.getBoardList(clubId, boardType);
+                                                 @RequestParam(value = "boardType", required = false) String boardType,
+                                                 Pageable pageable) {
+        System.out.println("boardType = " + boardType);
+        List<ResponseBoard> boardList = boardService.getBoardList(clubId, BoardType.fromJson(boardType), pageable);
+        System.out.println("boardList = " + boardList);
         return ResponseEntity.ok(new ResponseData<>(SuccessCode.OK, boardList));
     }
 }

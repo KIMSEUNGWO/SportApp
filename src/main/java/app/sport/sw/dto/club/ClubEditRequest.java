@@ -32,8 +32,5 @@ public class ClubEditRequest {
     @Nullable
     private Region region;
 
-    @Nullable
-    private Integer limitPerson;
-
 
 }

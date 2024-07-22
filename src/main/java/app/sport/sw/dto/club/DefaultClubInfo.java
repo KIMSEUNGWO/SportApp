@@ -8,6 +8,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 
+import java.time.LocalDateTime;
+
 @Builder
 @AllArgsConstructor
 @Getter
@@ -16,6 +18,7 @@ public class DefaultClubInfo {
 
     private long id;
     private String image;
+    private String thumbnail;
     private String title;
     private String intro;
     private SportType sport;
@@ -23,4 +26,5 @@ public class DefaultClubInfo {
     private int personCount;
     private int maxPerson;
     private Authority authority;
+    private LocalDateTime createDate;
 }
