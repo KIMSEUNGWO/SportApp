@@ -1,14 +1,11 @@
 package app.sport.sw.service;
 
-import app.sport.sw.component.authority.AuthorityClubChecker;
 import app.sport.sw.component.file.FileService;
 import app.sport.sw.domain.group.UserClub;
 import app.sport.sw.domain.group.board.Board;
 import app.sport.sw.dto.board.BoardCreateRequest;
 import app.sport.sw.dto.board.ResponseBoard;
 import app.sport.sw.dto.board.ResponseBoardDetail;
-import app.sport.sw.dto.board.ResponseBoardImage;
-import app.sport.sw.dto.board.comment.ResponseComment;
 import app.sport.sw.dto.user.CustomUserDetails;
 import app.sport.sw.enums.Authority;
 import app.sport.sw.enums.group.BoardType;

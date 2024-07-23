@@ -49,4 +49,8 @@ public class Board extends BaseEntityTime {
         if (boardImages.isEmpty()) return null;
         return boardImages.get(0).getThumbnailName();
     }
+
+    public List<Comment> getRootComments() {
+        return comments.stream().filter(comment -> comment.getParentComment() == null).toList();
+    }
 }

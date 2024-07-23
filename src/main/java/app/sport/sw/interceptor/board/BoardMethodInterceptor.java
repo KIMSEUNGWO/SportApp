@@ -24,7 +24,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class BoardOwnerInterceptor implements HandlerInterceptor {
+public class BoardMethodInterceptor implements HandlerInterceptor {
 
     private final UserClubRepository userClubRepository;
     private final BoardRepository boardRepository;
@@ -33,7 +33,7 @@ public class BoardOwnerInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
-        log.info("BoardOwnerInterceptor 진입");
+        log.info("BoardMethodInterceptor 진입");
         String method = request.getMethod();
 
         long boardId = pathHelper.getBoardId(request);
@@ -44,17 +44,20 @@ public class BoardOwnerInterceptor implements HandlerInterceptor {
         if (user.getRole() == Role.ADMIN) return true;
 
         Board board = boardRepository.findById(boardId);
-
-        // 게시글 수정은 본인만 가능하다
-        if ("PATCH".equalsIgnoreCase(method)) {
-            if (board.getUser().getId() != user.getId()) throw new BoardException(BoardError.BOARD_NOT_OWNER);
+        if ("GET".equalsIgnoreCase(method)) {
             return true;
         }
-
 
         if (board.getUser().getId() == user.getId()) {
             return true;
         }
+
+        // 게시글 수정은 본인만 가능하다
+        if ("PATCH".equalsIgnoreCase(method)) {
+            throw new BoardException(BoardError.BOARD_NOT_OWNER);
+        }
+
+        // 게시글 삭제는 모임장, 매니저만 가능하다
         UserClub userClub = userClubRepository.findByClubIdAndUserId(board.getClub().getId(), principal)
                 .orElseThrow(() -> new ClubException(ClubError.CLUB_NOT_JOIN_USER));
 

@@ -11,8 +11,6 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class BoardWrapper {
 
-    private final CommentWrapper commentWrapper;
-
     public ResponseBoard boardWrap(Board board) {
         return ResponseBoard.builder()
             .boardId(board.getId())
@@ -43,10 +41,6 @@ public class BoardWrapper {
             .images(board.getBoardImages()
                 .stream()
                 .map(boardImage -> new ResponseBoardImage(boardImage.getId(), boardImage.getStoreName()))
-                .toList())
-            .comments(board.getComments()
-                .stream()
-                .map(commentWrapper::commentWrap)
                 .toList())
             .build();
     }

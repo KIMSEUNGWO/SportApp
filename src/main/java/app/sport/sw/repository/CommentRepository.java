@@ -8,4 +8,5 @@ public interface CommentRepository {
     Comment findById(Long commentId);
 
     void save(Comment saveComment);
+
 }

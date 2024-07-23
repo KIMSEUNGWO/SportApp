@@ -1,4 +1,4 @@
-package app.sport.sw.dto.board.comment;
+package app.sport.sw.dto.comment;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,6 +12,7 @@ import java.util.List;
 @Builder
 public class ResponseComment {
 
+    private final Long parentCommentId;
     private final long commentId;
     private final String content;
     private final LocalDateTime createDate;

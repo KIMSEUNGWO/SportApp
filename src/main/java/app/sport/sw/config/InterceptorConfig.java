@@ -1,7 +1,7 @@
 package app.sport.sw.config;
 
 import app.sport.sw.interceptor.board.BoardExistsInterceptor;
-import app.sport.sw.interceptor.board.BoardOwnerInterceptor;
+import app.sport.sw.interceptor.board.BoardMethodInterceptor;
 import app.sport.sw.interceptor.club.ClubExistsInterceptor;
 import app.sport.sw.interceptor.club.ClubJoinInterceptor;
 import app.sport.sw.interceptor.club.ClubMethodInterceptor;
@@ -19,7 +19,7 @@ public class InterceptorConfig implements WebMvcConfigurer {
     private final ClubJoinInterceptor clubJoinInterceptor;
 
     private final BoardExistsInterceptor boardExistsInterceptor;
-    private final BoardOwnerInterceptor boardOwnerInterceptor;
+    private final BoardMethodInterceptor boardMethodInterceptor;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
@@ -28,6 +28,8 @@ public class InterceptorConfig implements WebMvcConfigurer {
                 .order(1)
                 .addPathPatterns("/club/**")
                 .excludePathPatterns("/club");
+
+
 
         // 클럽 조회, 생성, 수정, 삭제 메소드 인터셉터
         registry.addInterceptor(clubMethodInterceptor)
@@ -41,15 +43,17 @@ public class InterceptorConfig implements WebMvcConfigurer {
                 .excludePathPatterns("/club/*", "/club/*/board", "/club/*/users");
 
 
+
+
         // 게시물이 존재하는지 확인하는 인터셉터
         registry.addInterceptor(boardExistsInterceptor)
                 .order(4)
                 .addPathPatterns("/club/*/board/**")
                 .excludePathPatterns("/club/*/board", "/club/*/board/create");
 
-        // 게시물을 작성한 유저인지 확인하는 인터셉터 ( 그룹장, 매니저도 허용 )
-        registry.addInterceptor(boardOwnerInterceptor)
+        // 게시글 상세 조회, 수정, 삭제 메소드 인터셉터
+        registry.addInterceptor(boardMethodInterceptor)
                 .order(5)
-                .addPathPatterns("/club/*/board/*/edit", "/club/*/board/*/delete");
+                .addPathPatterns("/club/*/board/*");
     }
 }

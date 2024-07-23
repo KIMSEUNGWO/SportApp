@@ -40,5 +40,4 @@ public class Comment extends BaseEntityTime {
 
     @OneToMany(mappedBy = "parentComment", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> replyComments = new ArrayList<>();
-
 }
