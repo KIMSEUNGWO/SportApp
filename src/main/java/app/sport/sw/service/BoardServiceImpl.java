@@ -6,6 +6,9 @@ import app.sport.sw.domain.group.UserClub;
 import app.sport.sw.domain.group.board.Board;
 import app.sport.sw.dto.board.BoardCreateRequest;
 import app.sport.sw.dto.board.ResponseBoard;
+import app.sport.sw.dto.board.ResponseBoardDetail;
+import app.sport.sw.dto.board.ResponseBoardImage;
+import app.sport.sw.dto.board.comment.ResponseComment;
 import app.sport.sw.dto.user.CustomUserDetails;
 import app.sport.sw.enums.Authority;
 import app.sport.sw.enums.group.BoardType;
@@ -13,6 +16,7 @@ import app.sport.sw.exception.ClubException;
 import app.sport.sw.repository.BoardRepository;
 import app.sport.sw.repository.UserClubRepository;
 import app.sport.sw.response.ClubError;
+import app.sport.sw.wrappers.BoardWrapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -29,7 +33,8 @@ public class BoardServiceImpl implements BoardService {
     private final UserClubRepository userClubRepository;
     private final BoardRepository boardRepository;
     private final FileService fileService;
-    private final AuthorityClubChecker clubChecker;
+
+    private final BoardWrapper boardWrapper;
 
     @Override
     public long createBoard(long clubId, CustomUserDetails userDetails, BoardCreateRequest createRequest) {
@@ -65,23 +70,17 @@ public class BoardServiceImpl implements BoardService {
         return saveBoard.getId();
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<ResponseBoard> getBoardList(long clubId, BoardType boardType, Pageable pageable) {
         List<Board> boards = boardRepository.findAllByClubIdAndBoardType(clubId, boardType, pageable);
-        return boards.stream().map(board ->
-            ResponseBoard.builder()
-                .boardId(board.getId())
-                .title(board.getTitle())
-                .content(board.getContent())
-                .boardType(board.getBoardType())
-                .thumbnailBoard(board.getMainThumbnail())
-                .likeCount(0) // 좋아요 기능 활성화시 변경
-                .commentCount(board.getComments().size())
-                .createDate(board.getCreateDate())
-                .userId(board.getUser().getId())
-                .thumbnailBoard(board.getUser().getThumbnail())
-                .nickname(board.getUser().getNickName())
-                .build()
-            ).toList();
+        return boards.stream().map(boardWrapper::boardWrap).toList();
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public ResponseBoardDetail getBoardDetail(long boardId) {
+        Board board = boardRepository.findById(boardId);
+        return boardWrapper.boardDetailWrap(board);
     }
 }

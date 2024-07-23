@@ -7,6 +7,8 @@ import app.sport.sw.response.ClubError;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Component;
 
+import java.util.regex.Pattern;
+
 @Component
 public class InterceptorPathHelper {
 
@@ -26,8 +28,7 @@ public class InterceptorPathHelper {
     public long getBoardId(HttpServletRequest request) {
         String requestURI = request.getRequestURI();
         String replace = requestURI
-                .replaceAll("/club/[*]+/", "")
-                .replace("/board/", "");
+                .replaceAll("/club/\\d+/board/", "");
         int index = replace.indexOf("/");
         if (index != -1) replace = replace.substring(0, index);
 
@@ -38,4 +39,17 @@ public class InterceptorPathHelper {
         }
     }
 
+    public long getCommentId(HttpServletRequest request) {
+        String requestURI = request.getRequestURI();
+        String replace = requestURI
+            .replaceAll("/club/\\d+/board/\\d+/comment/", "");
+        int index = replace.indexOf("/");
+        if (index != -1) replace = replace.substring(0, index);
+
+        try {
+            return Long.parseLong(replace);
+        } catch (NumberFormatException e) {
+            throw new BoardException(BoardError.BOARD_NOT_EXISTS);
+        }
+    }
 }

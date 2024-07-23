@@ -40,6 +40,7 @@ public class BoardOwnerInterceptor implements HandlerInterceptor {
 
         CustomUserDetails principal = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = principal.getUser();
+        if (user.getRole() == Role.ADMIN) return true;
 
         Board board = boardRepository.findById(boardId);
 
@@ -49,7 +50,6 @@ public class BoardOwnerInterceptor implements HandlerInterceptor {
             return true;
         }
 
-        if (user.getRole() == Role.ADMIN) return true;
 
         if (board.getUser().getId() == user.getId()) {
             return true;

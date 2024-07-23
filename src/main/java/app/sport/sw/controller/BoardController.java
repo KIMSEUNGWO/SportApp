@@ -5,6 +5,7 @@ import app.sport.sw.dto.Response;
 import app.sport.sw.dto.ResponseData;
 import app.sport.sw.dto.board.BoardCreateRequest;
 import app.sport.sw.dto.board.ResponseBoard;
+import app.sport.sw.dto.board.ResponseBoardDetail;
 import app.sport.sw.dto.user.CustomUserDetails;
 import app.sport.sw.enums.group.BoardType;
 import app.sport.sw.response.ClubError;
@@ -46,9 +47,13 @@ public class BoardController {
     public ResponseEntity<Response> getBoardList(@PathVariable("clubId") long clubId,
                                                  @RequestParam(value = "boardType", required = false) String boardType,
                                                  Pageable pageable) {
-        System.out.println("boardType = " + boardType);
         List<ResponseBoard> boardList = boardService.getBoardList(clubId, BoardType.fromJson(boardType), pageable);
-        System.out.println("boardList = " + boardList);
         return ResponseEntity.ok(new ResponseData<>(SuccessCode.OK, boardList));
+    }
+
+    @GetMapping("/{boardId}")
+    public ResponseEntity<Response> getBoardDetail(@PathVariable("boardId") long boardId) {
+        ResponseBoardDetail boardDetail = boardService.getBoardDetail(boardId);
+        return ResponseEntity.ok(new ResponseData<>(SuccessCode.OK, boardDetail));
     }
 }

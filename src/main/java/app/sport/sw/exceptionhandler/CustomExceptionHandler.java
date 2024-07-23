@@ -61,4 +61,11 @@ public class CustomExceptionHandler {
         log.error("FileUploadException 예외 발생 !!!");
         return ResponseEntity.badRequest().body(new Response(e.getFileCode()));
     }
+
+    @ExceptionHandler(CommentException.class)
+    public ResponseEntity<Response> commentException(CommentException e) {
+        e.printStackTrace();
+        log.error("CommentException 예외 발생 !!!");
+        return ResponseEntity.badRequest().body(new Response(e.getCommentError()));
+    }
 }
