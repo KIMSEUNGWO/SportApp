@@ -1,6 +1,7 @@
-package app.sport.sw.interceptor;
+package app.sport.sw.interceptor.board;
 
 import app.sport.sw.exception.BoardException;
+import app.sport.sw.interceptor.InterceptorPathHelper;
 import app.sport.sw.jparepository.JpaBoardRepository;
 import app.sport.sw.response.BoardError;
 import jakarta.servlet.http.HttpServletRequest;

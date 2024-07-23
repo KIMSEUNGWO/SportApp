@@ -27,7 +27,7 @@ public class ClubController {
 
     private final ClubService clubService;
 
-    @PostMapping("/create")
+    @PostMapping
     public ResponseEntity<Response> createClub(
                 @AuthenticationPrincipal CustomUserDetails userDetails,
                 @Validated @RequestBody ClubCreateRequest clubCreateRequest,
@@ -42,7 +42,15 @@ public class ClubController {
         return ResponseEntity.ok(new ResponseData<>(SuccessCode.OK, clubId));
     }
 
-    @PatchMapping("/{clubId}/edit")
+    @GetMapping("/{clubId}")
+    public ResponseEntity<Response> defaultGroupData(@PathVariable("clubId") long clubId,
+                                                     @AuthenticationPrincipal CustomUserDetails userDetails) {
+        DefaultClubInfo clubData = clubService.getClubData(clubId, userDetails);
+        System.out.println("clubData = " + clubData);
+        return ResponseEntity.ok(new ResponseData<>(SuccessCode.OK, clubData));
+    }
+
+    @PatchMapping("/{clubId}")
     public ResponseEntity<Response> editClub(
                 @PathVariable("clubId") long clubId,
                 @Validated @ModelAttribute ClubEditRequest clubEditRequest,
@@ -56,20 +64,20 @@ public class ClubController {
         return ResponseEntity.ok(new Response(SuccessCode.OK));
     }
 
-    @PostMapping("/{clubId}/join")
+    @DeleteMapping("/{clubId}")
+    public ResponseEntity<Response> deleteClub(@PathVariable("clubId") long clubId, @AuthenticationPrincipal CustomUserDetails userDetails) {
+        System.out.println("모임 삭제 로직임");
+        return ResponseEntity.ok(new Response(SuccessCode.OK));
+    }
+
+    @PostMapping("/{clubId}")
     public ResponseEntity<Response> joinClub(@PathVariable("clubId") long clubId, @AuthenticationPrincipal CustomUserDetails userDetails) {
         clubService.joinClub(clubId, userDetails);
         return ResponseEntity.ok(new ResponseData<>(SuccessCode.OK, clubId));
     }
 
 
-    @GetMapping("/{clubId}")
-    public ResponseEntity<Response> defaultGroupData(@PathVariable("clubId") long clubId,
-                                                     @AuthenticationPrincipal CustomUserDetails userDetails) {
-        DefaultClubInfo clubData = clubService.getClubData(clubId, userDetails);
-        System.out.println("clubData = " + clubData);
-        return ResponseEntity.ok(new ResponseData<>(SuccessCode.OK, clubData));
-    }
+
 
     @GetMapping("/{clubId}/users")
     public ResponseEntity<Response> getClubUsers(@PathVariable("clubId") long clubId) {

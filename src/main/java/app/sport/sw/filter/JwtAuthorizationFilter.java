@@ -55,7 +55,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
         } catch (TokenException e) {
             String requestURI = request.getRequestURI();
-            if (isExcludedPattern(requestURI)) {
+            if (isExcludedPattern(request)) {
                 filterChain.doFilter(request, response);
             } else {
                 System.out.println("TokenException 발생!! :" + e.getMessage());
@@ -66,9 +66,11 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
     }
 
-    private boolean isExcludedPattern(String requestURI) {
+    private boolean isExcludedPattern(HttpServletRequest request) {
+        String requestURI = request.getRequestURI();
+        String method = request.getMethod();
         for (Pattern pattern : excludePatterns) {
-            if (pattern.matcher(requestURI).matches()) return true;
+            if ("GET".equalsIgnoreCase(method) && pattern.matcher(requestURI).matches()) return true;
         }
         return false;
     }

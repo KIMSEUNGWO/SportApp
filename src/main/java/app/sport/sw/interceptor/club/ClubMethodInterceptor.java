@@ -1,9 +1,11 @@
-package app.sport.sw.interceptor;
+package app.sport.sw.interceptor.club;
 
+import app.sport.sw.domain.group.UserClub;
 import app.sport.sw.dto.user.CustomUserDetails;
 import app.sport.sw.enums.Authority;
 import app.sport.sw.enums.Role;
 import app.sport.sw.exception.ClubException;
+import app.sport.sw.interceptor.InterceptorPathHelper;
 import app.sport.sw.jparepository.JpaUserClubRepository;
 import app.sport.sw.response.ClubError;
 import jakarta.servlet.http.HttpServletRequest;
@@ -17,25 +19,34 @@ import org.springframework.web.servlet.HandlerInterceptor;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class ClubOwnerInterceptor implements HandlerInterceptor {
+public class ClubMethodInterceptor implements HandlerInterceptor {
 
     private final JpaUserClubRepository jpaUserClubRepository;
     private final InterceptorPathHelper pathHelper;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        log.info("ClubMethodInterceptor 진입");
 
-        log.info("ClubOwnerInterceptor 진입");
+        CustomUserDetails principal = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal.getUser().getRole() == Role.ADMIN) return true;
 
         long clubId = pathHelper.getClubId(request);
         log.info("clubId: {}", clubId);
 
-        CustomUserDetails principal = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (principal.getUser().getRole() == Role.ADMIN) return true;
-        long userId = principal.getUser().getId();
+        String method = request.getMethod();
+        if ("GET".equals(method) || "POST".equals(method)) {
+            return true;
+        }
 
-        boolean exists = jpaUserClubRepository.existsByClub_IdAndUser_IdAndAuthority(clubId, userId, Authority.OWNER);
-        if (!exists) throw new ClubException(ClubError.CLUB_NOT_OWNER);
+        UserClub userClub = jpaUserClubRepository.findByClub_IdAndUser_Id(clubId, principal.getUser().getId())
+            .orElseThrow(() -> new ClubException(ClubError.CLUB_NOT_JOIN_USER));
+
+        if ("PATCH".equals(method) || "DELETE".equals(method)) {
+            if (userClub.getAuthority() != Authority.OWNER) {
+                throw new ClubException(ClubError.CLUB_NOT_OWNER);
+            }
+        }
 
         return true;
     }

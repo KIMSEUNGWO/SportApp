@@ -1,4 +1,4 @@
-package app.sport.sw.interceptor;
+package app.sport.sw.interceptor.board;
 
 import app.sport.sw.domain.group.UserClub;
 import app.sport.sw.domain.group.board.Board;
@@ -8,6 +8,7 @@ import app.sport.sw.enums.Authority;
 import app.sport.sw.enums.Role;
 import app.sport.sw.exception.BoardException;
 import app.sport.sw.exception.ClubException;
+import app.sport.sw.interceptor.InterceptorPathHelper;
 import app.sport.sw.repository.BoardRepository;
 import app.sport.sw.repository.UserClubRepository;
 import app.sport.sw.response.BoardError;

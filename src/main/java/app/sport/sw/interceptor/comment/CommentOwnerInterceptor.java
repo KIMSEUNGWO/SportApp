@@ -1,7 +1,8 @@
-package app.sport.sw.interceptor;
+package app.sport.sw.interceptor.comment;
 
 import app.sport.sw.domain.user.User;
 import app.sport.sw.dto.user.CustomUserDetails;
+import app.sport.sw.interceptor.InterceptorPathHelper;
 import app.sport.sw.repository.CommentRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
