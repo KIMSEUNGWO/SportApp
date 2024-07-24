@@ -9,4 +9,5 @@ public interface CommentRepository {
 
     void save(Comment saveComment);
 
+    void deleteById(long commentId);
 }

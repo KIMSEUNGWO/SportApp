@@ -3,11 +3,10 @@ package app.sport.sw.domain.group.board;
 import app.sport.sw.domain.BaseEntityTime;
 import app.sport.sw.domain.user.User;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.springframework.data.annotation.LastModifiedDate;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +31,7 @@ public class Comment extends BaseEntityTime {
     @JoinColumn(name = "USER_ID")
     private User user;
 
+    @Setter
     private String comment;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -40,4 +40,7 @@ public class Comment extends BaseEntityTime {
 
     @OneToMany(mappedBy = "parentComment", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> replyComments = new ArrayList<>();
+
+    @LastModifiedDate
+    private LocalDateTime updateDate;
 }

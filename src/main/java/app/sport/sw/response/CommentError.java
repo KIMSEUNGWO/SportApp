@@ -8,6 +8,7 @@ import lombok.Getter;
 public enum CommentError implements ResponseCode {
 
     NOT_EXISTS_COMMENT,
+    COMMENT_NOT_OWNER
     ;
 
     @Override

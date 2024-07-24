@@ -3,6 +3,7 @@ package app.sport.sw.controller;
 import app.sport.sw.dto.Response;
 import app.sport.sw.dto.ResponseData;
 import app.sport.sw.dto.comment.RequestCreateComment;
+import app.sport.sw.dto.comment.RequestEditComment;
 import app.sport.sw.dto.comment.ResponseComment;
 import app.sport.sw.dto.user.CustomUserDetails;
 import app.sport.sw.response.SuccessCode;
@@ -32,6 +33,19 @@ public class CommentController {
                                            @AuthenticationPrincipal CustomUserDetails userDetails,
                                            @RequestBody RequestCreateComment createComment) {
         commentService.createComment(boardId, userDetails.getUser().getId(), createComment);
+        return ResponseEntity.ok(new Response(SuccessCode.OK));
+    }
+
+    @PatchMapping("/{commentId}")
+    public ResponseEntity<Response> edit(@PathVariable("commentId") long commentId,
+                                         @RequestBody RequestEditComment editComment) {
+        commentService.editComment(commentId, editComment);
+        return ResponseEntity.ok(new Response(SuccessCode.OK));
+    }
+
+    @DeleteMapping("/{commentId}")
+    public ResponseEntity<Response> delete(@PathVariable("commentId") long commentId) {
+        commentService.deleteComment(commentId);
         return ResponseEntity.ok(new Response(SuccessCode.OK));
     }
 }

@@ -4,6 +4,7 @@ import app.sport.sw.domain.group.board.Board;
 import app.sport.sw.domain.group.board.Comment;
 import app.sport.sw.domain.user.User;
 import app.sport.sw.dto.comment.RequestCreateComment;
+import app.sport.sw.dto.comment.RequestEditComment;
 import app.sport.sw.dto.comment.ResponseComment;
 import app.sport.sw.repository.BoardRepository;
 import app.sport.sw.repository.CommentRepository;
@@ -48,5 +49,16 @@ public class CommentServiceImpl implements CommentService {
             .stream()
             .map(commentWrapper::commentWrap)
             .toList();
+    }
+
+    @Override
+    public void editComment(long commentId, RequestEditComment editComment) {
+        Comment comment = commentRepository.findById(commentId);
+        comment.setComment(editComment.getComment());
+    }
+
+    @Override
+    public void deleteComment(long commentId) {
+        commentRepository.deleteById(commentId);
     }
 }
