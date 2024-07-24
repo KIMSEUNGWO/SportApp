@@ -5,6 +5,7 @@ import app.sport.sw.interceptor.board.BoardMethodInterceptor;
 import app.sport.sw.interceptor.club.ClubExistsInterceptor;
 import app.sport.sw.interceptor.club.ClubJoinInterceptor;
 import app.sport.sw.interceptor.club.ClubMethodInterceptor;
+import app.sport.sw.interceptor.comment.CommentOwnerInterceptor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -20,6 +21,8 @@ public class InterceptorConfig implements WebMvcConfigurer {
 
     private final BoardExistsInterceptor boardExistsInterceptor;
     private final BoardMethodInterceptor boardMethodInterceptor;
+
+    private final CommentOwnerInterceptor commentOwnerInterceptor;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
@@ -44,16 +47,22 @@ public class InterceptorConfig implements WebMvcConfigurer {
 
 
 
-
         // 게시물이 존재하는지 확인하는 인터셉터
         registry.addInterceptor(boardExistsInterceptor)
                 .order(4)
                 .addPathPatterns("/club/*/board/**")
                 .excludePathPatterns("/club/*/board", "/club/*/board/create");
 
-        // 게시글 상세 조회, 수정, 삭제 메소드 인터셉터
+        // 게시글 상세 조회, 수정, 삭제 권한 인터셉터
         registry.addInterceptor(boardMethodInterceptor)
                 .order(5)
                 .addPathPatterns("/club/*/board/*");
+
+
+
+        // 댓글 수정 또는 삭제 권한 인터셉터
+        registry.addInterceptor(commentOwnerInterceptor)
+                .order(6)
+                .addPathPatterns("/club/*/board/*/comment/**");
     }
 }
