@@ -18,9 +18,7 @@ public class DistinctController {
 
     @GetMapping("/distinct/nickname")
     public ResponseEntity<Response> distinctNickname(@RequestParam("nickname") String nickname) {
-        System.out.println("DistinctCheck nickname: " + nickname);
         boolean isDistinct = userService.distinctNickname(nickname);
-        System.out.println("isDistinct = " + isDistinct);
         return ResponseEntity.ok(new ResponseData<>(SuccessCode.OK, isDistinct));
     }
 }

@@ -30,17 +30,10 @@ public class SecureConfig {
         http.addFilterBefore(flutterAuthorizationFilter, SecurityContextHolderFilter.class);
         http.addFilterAfter(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class);
 
-        http.authorizeHttpRequests( request ->
-          request
-              .requestMatchers(
-                  "/**"
-                  )
-              .permitAll()
-        );
-
         http.authorizeHttpRequests(request ->
             request
-                .requestMatchers("/user/profile").hasAnyRole(Role.USER.name(), Role.ADMIN.name())
+                .requestMatchers("/user/**").hasAnyRole(Role.USER.name(), Role.ADMIN.name())
+                .anyRequest().permitAll()
         );
 
         return http.build();
