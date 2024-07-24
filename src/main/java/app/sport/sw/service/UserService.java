@@ -27,6 +27,7 @@ public class UserService {
         try {
             return jpaUserRepository.findById(userId)
                 .map(user -> ResponseProfile.builder()
+                    .id(user.getId())
                     .image(user.getImage())
                     .name(user.getNickName())
                     .intro(user.getUserInfo().getIntro())

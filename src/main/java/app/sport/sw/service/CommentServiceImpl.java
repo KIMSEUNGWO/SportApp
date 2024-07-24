@@ -11,6 +11,7 @@ import app.sport.sw.repository.CommentRepository;
 import app.sport.sw.repository.UserRepository;
 import app.sport.sw.wrappers.CommentWrapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -43,12 +44,13 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<ResponseComment> findByBoardId(long boardId) {
-        return boardRepository.findById(boardId)
-            .getRootComments()
+    public List<ResponseComment> findByBoardId(long boardId, Pageable pageable, int start) {
+        int mod = pageable.getPageSize() - (start % pageable.getPageSize());
+        List<ResponseComment> list = commentRepository.findAllByBoardIdScrollPageable(boardId, pageable)
             .stream()
             .map(commentWrapper::commentWrap)
             .toList();
+        return list.subList(pageable.getPageSize() - mod, list.size());
     }
 
     @Override
@@ -60,5 +62,10 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public void deleteComment(long commentId) {
         commentRepository.deleteById(commentId);
+    }
+
+    @Override
+    public int countByBoardId(long boardId) {
+        return commentRepository.countByBoardId(boardId);
     }
 }

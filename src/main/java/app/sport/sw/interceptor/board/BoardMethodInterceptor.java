@@ -36,6 +36,10 @@ public class BoardMethodInterceptor implements HandlerInterceptor {
         log.info("BoardMethodInterceptor 진입");
         String method = request.getMethod();
 
+        if ("GET".equalsIgnoreCase(method) || "POST".equalsIgnoreCase(method)) {
+            return true;
+        }
+
         long boardId = pathHelper.getBoardId(request);
         log.info("boardId: {}", boardId);
 
@@ -44,9 +48,6 @@ public class BoardMethodInterceptor implements HandlerInterceptor {
         if (user.getRole() == Role.ADMIN) return true;
 
         Board board = boardRepository.findById(boardId);
-        if ("GET".equalsIgnoreCase(method)) {
-            return true;
-        }
 
         if (board.getUser().getId() == user.getId()) {
             return true;

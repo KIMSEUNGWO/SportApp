@@ -63,6 +63,7 @@ public class InterceptorConfig implements WebMvcConfigurer {
         // 댓글 수정 또는 삭제 권한 인터셉터
         registry.addInterceptor(commentOwnerInterceptor)
                 .order(6)
-                .addPathPatterns("/club/*/board/*/comment/**");
+                .addPathPatterns("/club/*/board/*/comment/**")
+                .excludePathPatterns("/club/*/board/*/comment");
     }
 }

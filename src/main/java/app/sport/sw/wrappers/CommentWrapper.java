@@ -17,10 +17,6 @@ public class CommentWrapper {
             .userId(comment.getUser().getId())
             .nickname(comment.getUser().getNickName())
             .profile(comment.getUser().getThumbnail())
-            .replyComments(comment.getReplyComments()
-                .stream()
-                .map(this::commentWrap)
-                .toList())
             .build();
     }
 }
