@@ -34,6 +34,7 @@ public class BoardWrapper {
             .content(board.getContent())
             .boardType(board.getBoardType())
             .createDate(board.getCreateDate())
+            .isUpdate(board.isUpdate())
             .likeCount(0)
             .userId(board.getUser().getId())
             .thumbnailUser(board.getUser().getThumbnail())

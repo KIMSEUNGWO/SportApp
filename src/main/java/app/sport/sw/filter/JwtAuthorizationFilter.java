@@ -54,12 +54,11 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             checkAccessTokenValid(request);
             filterChain.doFilter(request, response);
         } catch (TokenException e) {
-            String requestURI = request.getRequestURI();
             if (isExcludedPattern(request)) {
                 filterChain.doFilter(request, response);
             } else {
                 System.out.println("TokenException 발생!! :" + e.getMessage());
-                setErrorResponse(response, e.getTokenError());
+                setErrorResponse(response, e.getResponseCode());
             }
         }
 

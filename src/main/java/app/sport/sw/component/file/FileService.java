@@ -81,6 +81,16 @@ public class FileService {
         saveBoardImages(files, board);
     }
 
+    public void deleteImages(List<? extends BaseEntityImage> images) {
+        for (BaseEntityImage image : images) {
+            deleteImage(image);
+        }
+    }
+
+    public void deleteImage(BaseEntityImage image) {
+        fileRepository.delete(image.getStoreName(), image.getThumbnailName(), FileType.BOARD_IMAGE);
+    }
+
     private String createName(String originalFileName) {
         String uuid = UUID.randomUUID().toString();
 

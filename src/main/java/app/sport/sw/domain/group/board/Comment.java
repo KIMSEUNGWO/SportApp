@@ -41,6 +41,14 @@ public class Comment extends BaseEntityTime {
     @OneToMany(mappedBy = "parentComment", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> replyComments = new ArrayList<>();
 
-    @LastModifiedDate
     private LocalDateTime updateDate;
+
+    public boolean isUpdate() {
+        return updateDate != null;
+    }
+
+    public void editComment(String comment) {
+        this.comment = comment;
+        updateDate = LocalDateTime.now();
+    }
 }

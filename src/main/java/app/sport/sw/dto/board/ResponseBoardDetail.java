@@ -19,6 +19,7 @@ public class ResponseBoardDetail {
     private final LocalDateTime createDate;
     private final BoardType boardType;
     private final List<ResponseBoardImage> images;
+    private final boolean isUpdate;
 
     private final int likeCount;
 

@@ -1,9 +1,11 @@
 package app.sport.sw.service;
 
 import app.sport.sw.component.file.FileService;
+import app.sport.sw.domain.BaseEntityImage;
 import app.sport.sw.domain.group.UserClub;
 import app.sport.sw.domain.group.board.Board;
 import app.sport.sw.dto.board.BoardCreateRequest;
+import app.sport.sw.dto.board.RequestBoardEdit;
 import app.sport.sw.dto.board.ResponseBoard;
 import app.sport.sw.dto.board.ResponseBoardDetail;
 import app.sport.sw.dto.user.CustomUserDetails;
@@ -79,5 +81,19 @@ public class BoardServiceImpl implements BoardService {
     public ResponseBoardDetail getBoardDetail(long boardId) {
         Board board = boardRepository.findById(boardId);
         return boardWrapper.boardDetailWrap(board);
+    }
+
+    @Override
+    public void editBoard(long boardId, RequestBoardEdit boardEdit) {
+        Board board = boardRepository.findById(boardId);
+        board.edit(boardEdit);
+        fileService.editBoardImages(boardEdit.getImage(), board, boardEdit.getRemoveImages());
+    }
+
+    @Override
+    public List<? extends BaseEntityImage> deleteBoard(long boardId) {
+        Board board = boardRepository.findById(boardId);
+        boardRepository.delete(board);
+        return board.getBoardImages();
     }
 }

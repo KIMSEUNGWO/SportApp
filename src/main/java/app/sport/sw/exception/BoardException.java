@@ -4,11 +4,10 @@ import app.sport.sw.response.BoardError;
 import lombok.Getter;
 
 @Getter
-public class BoardException extends RuntimeException {
-
-    private final BoardError boardError;
+public class BoardException extends CustomRuntimeException {
 
     public BoardException(BoardError boardError) {
-        this.boardError = boardError;
+        super(boardError);
     }
+
 }

@@ -4,11 +4,9 @@ import app.sport.sw.response.TokenError;
 import lombok.Getter;
 
 @Getter
-public class TokenException extends RuntimeException {
-
-    private TokenError tokenError;
+public class TokenException extends CustomRuntimeException {
 
     public TokenException(TokenError tokenError) {
-        this.tokenError = tokenError;
+        super(tokenError);
     }
 }

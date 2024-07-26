@@ -3,13 +3,12 @@ package app.sport.sw.domain.group.board;
 import app.sport.sw.domain.BaseEntityTime;
 import app.sport.sw.domain.group.Club;
 import app.sport.sw.domain.user.User;
+import app.sport.sw.dto.board.RequestBoardEdit;
 import app.sport.sw.enums.group.BoardType;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,15 +33,19 @@ public class Board extends BaseEntityTime {
     @JoinColumn(name = "USER_ID")
     private User user;
 
+    @Setter
     private BoardType boardType;
+    @Setter
     private String title;
-    @Lob
+    @Setter @Lob
     private String content;
 
-    @OneToMany(mappedBy = "board")
+    private LocalDateTime updateDate;
+
+    @OneToMany(mappedBy = "board", orphanRemoval = true)
     private List<BoardImage> boardImages = new ArrayList<>();
 
-    @OneToMany(mappedBy = "board")
+    @OneToMany(mappedBy = "board", orphanRemoval = true)
     private List<Comment> comments = new ArrayList<>();
 
     public String getMainThumbnail() {
@@ -50,7 +53,14 @@ public class Board extends BaseEntityTime {
         return boardImages.get(0).getThumbnailName();
     }
 
-    public List<Comment> getRootComments() {
-        return comments.stream().filter(comment -> comment.getParentComment() == null).toList();
+    public void edit(RequestBoardEdit boardEdit) {
+        title = boardEdit.getTitle();
+        content = boardEdit.getContent();
+        boardType = boardEdit.getBoardType();
+        updateDate = LocalDateTime.now();
+    }
+
+    public boolean isUpdate() {
+        return updateDate != null;
     }
 }

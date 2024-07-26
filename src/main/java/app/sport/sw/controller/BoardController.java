@@ -1,9 +1,12 @@
 package app.sport.sw.controller;
 
 import app.sport.sw.component.BindingField;
+import app.sport.sw.component.file.FileService;
+import app.sport.sw.domain.BaseEntityImage;
 import app.sport.sw.dto.Response;
 import app.sport.sw.dto.ResponseData;
 import app.sport.sw.dto.board.BoardCreateRequest;
+import app.sport.sw.dto.board.RequestBoardEdit;
 import app.sport.sw.dto.board.ResponseBoard;
 import app.sport.sw.dto.board.ResponseBoardDetail;
 import app.sport.sw.dto.user.CustomUserDetails;
@@ -27,6 +30,7 @@ import java.util.List;
 public class BoardController {
 
     private final BoardService boardService;
+    private final FileService fileService;
 
     @PostMapping("/create")
     public ResponseEntity<Response> noticeCreate(@PathVariable("clubId") long clubId,
@@ -55,5 +59,19 @@ public class BoardController {
     public ResponseEntity<Response> getBoardDetail(@PathVariable("boardId") long boardId) {
         ResponseBoardDetail boardDetail = boardService.getBoardDetail(boardId);
         return ResponseEntity.ok(new ResponseData<>(SuccessCode.OK, boardDetail));
+    }
+
+    @PatchMapping("/{boardId}")
+    public ResponseEntity<Response> editBoard(@PathVariable("boardId") long boardId,
+                                              @ModelAttribute RequestBoardEdit requestBoardEdit) {
+        boardService.editBoard(boardId, requestBoardEdit);
+        return ResponseEntity.ok(new Response(SuccessCode.OK));
+    }
+
+    @DeleteMapping("/{boardId}")
+    public ResponseEntity<Response> deleteBoard(@PathVariable("boardId") long boardId) {
+        List<? extends BaseEntityImage> baseEntityImages = boardService.deleteBoard(boardId);
+        fileService.deleteImages(baseEntityImages);
+        return ResponseEntity.ok(new Response(SuccessCode.OK));
     }
 }

@@ -4,11 +4,9 @@ import app.sport.sw.response.VIPCode;
 import lombok.Getter;
 
 @Getter
-public class VIPException extends RuntimeException {
-
-    private final VIPCode vipCode;
+public class VIPException extends CustomRuntimeException {
 
     public VIPException(VIPCode vipCode) {
-        this.vipCode = vipCode;
+        super(vipCode);
     }
 }

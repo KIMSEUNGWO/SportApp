@@ -4,11 +4,9 @@ import app.sport.sw.response.UserCode;
 import lombok.Getter;
 
 @Getter
-public class LoginException extends RuntimeException {
-
-    final UserCode userCode;
+public class LoginException extends CustomRuntimeException {
 
     public LoginException(UserCode userCode) {
-        this.userCode = userCode;
+        super(userCode);
     }
 }

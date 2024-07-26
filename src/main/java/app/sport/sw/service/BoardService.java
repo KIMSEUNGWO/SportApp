@@ -1,6 +1,8 @@
 package app.sport.sw.service;
 
+import app.sport.sw.domain.BaseEntityImage;
 import app.sport.sw.dto.board.BoardCreateRequest;
+import app.sport.sw.dto.board.RequestBoardEdit;
 import app.sport.sw.dto.board.ResponseBoard;
 import app.sport.sw.dto.board.ResponseBoardDetail;
 import app.sport.sw.dto.user.CustomUserDetails;
@@ -15,4 +17,8 @@ public interface BoardService {
     List<ResponseBoard> getBoardList(long clubId, BoardType boardType, Pageable pageable);
 
     ResponseBoardDetail getBoardDetail(long boardId);
+
+    void editBoard(long boardId, RequestBoardEdit requestBoardEdit);
+
+    List<? extends BaseEntityImage> deleteBoard(long boardId);
 }

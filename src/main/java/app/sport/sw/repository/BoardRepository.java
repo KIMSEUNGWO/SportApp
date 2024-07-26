@@ -11,4 +11,7 @@ public interface BoardRepository {
     Board findById(long boardId);
 
     List<Board> findAllByClubIdAndBoardType(long clubId, BoardType boardType, Pageable pageable);
+
+    void delete(Board board);
+
 }

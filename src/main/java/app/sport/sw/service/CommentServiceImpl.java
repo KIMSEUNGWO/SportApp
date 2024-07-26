@@ -56,7 +56,7 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public void editComment(long commentId, RequestEditComment editComment) {
         Comment comment = commentRepository.findById(commentId);
-        comment.setComment(editComment.getComment());
+        comment.editComment(editComment.getComment());
     }
 
     @Override

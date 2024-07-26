@@ -34,4 +34,9 @@ public class BoardRepositoryImpl implements BoardRepository {
         return jpaBoardRepository.findAllByClub_IdAndBoardTypeOrderByIdDesc(clubId, boardType, pageable);
     }
 
+    @Override
+    public void delete(Board board) {
+        jpaBoardRepository.delete(board);
+    }
+
 }

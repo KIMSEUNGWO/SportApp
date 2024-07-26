@@ -4,11 +4,9 @@ import app.sport.sw.response.ClubError;
 import lombok.Getter;
 
 @Getter
-public class ClubException extends RuntimeException {
-
-    private final ClubError error;
+public class ClubException extends CustomRuntimeException {
 
     public ClubException(ClubError error) {
-        this.error = error;
+        super(error);
     }
 }

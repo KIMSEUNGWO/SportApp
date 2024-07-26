@@ -17,6 +17,7 @@ public class ResponseComment {
     private final long commentId;
     private final String content;
     private final LocalDateTime createDate;
+    private final boolean isUpdate;
 
     private final long userId;
     private final String nickname;

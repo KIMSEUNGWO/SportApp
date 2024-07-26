@@ -17,6 +17,7 @@ public class CommentWrapper {
             .userId(comment.getUser().getId())
             .nickname(comment.getUser().getNickName())
             .profile(comment.getUser().getThumbnail())
+            .isUpdate(comment.isUpdate())
             .build();
     }
 }
