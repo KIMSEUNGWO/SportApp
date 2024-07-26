@@ -15,7 +15,7 @@ public interface CommentRepository {
     void deleteById(long commentId);
 
     // 스크롤 시 페이지 네이션 메소드
-    List<Comment> findAllByBoardIdScrollPageable(long boardId, Pageable pageable);
+    List<Comment> findAllByBoardIdScrollPageable(long boardId, Pageable pageable, boolean reload);
 
     // 댓글 또는 대댓글 생성시 사용할 메소드
     List<Comment> findAllByBoardIdOrderByCommentId(long boardId, long parentCommentId);

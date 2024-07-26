@@ -11,7 +11,7 @@ public interface CommentService {
 
     void createComment(long boardId, long userId, RequestCreateComment createComment);
 
-    List<ResponseComment> findByBoardId(long boardId, Pageable pageable, int start);
+    List<ResponseComment> findByBoardId(long boardId, Pageable pageable, int start, boolean reload);
 
     void editComment(long commentId, RequestEditComment editComment);
 

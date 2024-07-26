@@ -5,7 +5,6 @@ import app.sport.sw.exception.CommentException;
 import app.sport.sw.jparepository.JpaCommentRepository;
 import app.sport.sw.response.CommentError;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
@@ -40,9 +39,10 @@ public class CommentRepositoryImpl implements CommentRepository {
     }
 
     @Override
-    public List<Comment> findAllByBoardIdScrollPageable(long boardId, Pageable pageable) {
-        Page<Comment> page = jpaCommentRepository.findAllByBoard_Id(boardId, pageable);
-        return page.toList();
+    public List<Comment> findAllByBoardIdScrollPageable(long boardId, Pageable pageable, boolean reload) {
+        return reload
+            ? jpaCommentRepository.findAllByBoard_Id(boardId, pageable)
+            : jpaCommentRepository.findAllByBoard_Id(boardId);
     }
 
     // TODO

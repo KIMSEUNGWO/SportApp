@@ -44,9 +44,9 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<ResponseComment> findByBoardId(long boardId, Pageable pageable, int start) {
+    public List<ResponseComment> findByBoardId(long boardId, Pageable pageable, int start, boolean reload) {
         int mod = pageable.getPageSize() - (start % pageable.getPageSize());
-        List<ResponseComment> list = commentRepository.findAllByBoardIdScrollPageable(boardId, pageable)
+        List<ResponseComment> list = commentRepository.findAllByBoardIdScrollPageable(boardId, pageable, reload)
             .stream()
             .map(commentWrapper::commentWrap)
             .toList();

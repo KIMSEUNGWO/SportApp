@@ -28,9 +28,11 @@ public class CommentController {
     @GetMapping
     public ResponseEntity<Response> getComments(@PathVariable("boardId") long boardId,
                                                 @RequestParam(name = "start", defaultValue = "0") int start,
-                                                @RequestParam(name = "size", defaultValue = "10") int size) {
+                                                @RequestParam(name = "size", defaultValue = "10") int size,
+                                                @RequestParam(name = "reload", defaultValue = "false") boolean reload) {
+
         Pageable pageable = PageRequest.of(start / size, size);
-        List<ResponseComment> comments = commentService.findByBoardId(boardId, pageable, start);
+        List<ResponseComment> comments = commentService.findByBoardId(boardId, pageable, start, reload);
         int totalCount = commentService.countByBoardId(boardId);
         return ResponseEntity.ok(new ResponseData<>(SuccessCode.OK, new ResponseTotalCount(totalCount, comments)));
     }
