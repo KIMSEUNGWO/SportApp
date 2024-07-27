@@ -1,5 +1,6 @@
 package app.sport.sw.dto.comment;
 
+import app.sport.sw.dto.common.UserSimp;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,7 +20,5 @@ public class ResponseComment {
     private final LocalDateTime createDate;
     private final boolean isUpdate;
 
-    private final long userId;
-    private final String nickname;
-    private final String profile;
+    private final UserSimp user;
 }

@@ -19,6 +19,7 @@ import app.sport.sw.response.ClubError;
 import app.sport.sw.exception.ClubException;
 import app.sport.sw.repository.ClubRepository;
 import app.sport.sw.wrappers.ClubToClubListViewWrapper;
+import app.sport.sw.wrappers.ClubUserWrapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,6 +37,8 @@ public class ClubServiceImpl implements ClubService {
     private final UserRepository userRepository;
     private final UserClubRepository userClubRepository;
     private final FileService fileService;
+
+    private final ClubUserWrapper clubUserWrapper;
 
     @Transactional(readOnly = true)
     public DefaultClubInfo getClubData(long clubId, CustomUserDetails userDetails) {
@@ -155,12 +158,7 @@ public class ClubServiceImpl implements ClubService {
     public List<ResponseClubUser> getClubUsers(long clubId) {
         List<UserClub> userClubs = userClubRepository.findByClubId(clubId);
         return userClubs.stream()
-            .map(userClub -> ResponseClubUser.builder()
-                .userId(userClub.getUser().getId())
-                .thumbnail(userClub.getUser().getThumbnail())
-                .nickname(userClub.getUser().getNickName())
-                .authority(userClub.getAuthority())
-                .build())
+            .map(clubUserWrapper::clubUserWrap)
             .sorted(new ResponseClubUser.Comparator())
             .toList();
     }

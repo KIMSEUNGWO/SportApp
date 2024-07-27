@@ -1,5 +1,6 @@
 package app.sport.sw.dto.club;
 
+import app.sport.sw.dto.common.UserSimp;
 import app.sport.sw.enums.Authority;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,11 +11,8 @@ import lombok.Getter;
 @AllArgsConstructor
 public class ResponseClubUser {
 
-    private final long userId;
-    private final String thumbnail;
-    private final String nickname;
+    private final UserSimp user;
     private final Authority authority;
-
 
     public static class Comparator implements java.util.Comparator<ResponseClubUser> {
 

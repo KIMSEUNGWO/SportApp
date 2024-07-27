@@ -2,10 +2,14 @@ package app.sport.sw.wrappers;
 
 import app.sport.sw.domain.group.board.Comment;
 import app.sport.sw.dto.comment.ResponseComment;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class CommentWrapper {
+
+    private final UserSimpWrapper userSimpWrapper;
 
 
     public ResponseComment commentWrap(Comment comment) {
@@ -14,10 +18,8 @@ public class CommentWrapper {
             .commentId(comment.getId())
             .content(comment.getComment())
             .createDate(comment.getCreateDate())
-            .userId(comment.getUser().getId())
-            .nickname(comment.getUser().getNickName())
-            .profile(comment.getUser().getThumbnail())
             .isUpdate(comment.isUpdate())
+            .user(userSimpWrapper.userSimpWrap(comment.getUser()))
             .build();
     }
 }

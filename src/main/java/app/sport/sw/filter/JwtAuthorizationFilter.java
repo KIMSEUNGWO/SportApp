@@ -57,7 +57,8 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             if (isExcludedPattern(request)) {
                 filterChain.doFilter(request, response);
             } else {
-                System.out.println("TokenException 발생!! :" + e.getMessage());
+                e.printStackTrace();
+                System.out.println("TokenException 발생!! :" + e.getResponseCode());
                 setErrorResponse(response, e.getResponseCode());
             }
         }

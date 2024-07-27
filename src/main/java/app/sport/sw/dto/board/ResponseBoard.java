@@ -1,5 +1,6 @@
 package app.sport.sw.dto.board;
 
+import app.sport.sw.dto.common.UserSimp;
 import app.sport.sw.enums.group.BoardType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,7 +26,5 @@ public class ResponseBoard {
     private final int commentCount;
     private final LocalDateTime createDate;
 
-    private final long userId;
-    private final String thumbnailUser;
-    private final String nickname;
+    private final UserSimp user;
 }

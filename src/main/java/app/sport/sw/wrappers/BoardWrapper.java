@@ -11,6 +11,8 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class BoardWrapper {
 
+    private final UserSimpWrapper userSimpWrapper;
+
     public ResponseBoard boardWrap(Board board) {
         return ResponseBoard.builder()
             .boardId(board.getId())
@@ -21,9 +23,7 @@ public class BoardWrapper {
             .likeCount(0) // 좋아요 기능 활성화시 변경
             .commentCount(board.getComments().size())
             .createDate(board.getCreateDate())
-            .userId(board.getUser().getId())
-            .thumbnailUser(board.getUser().getThumbnail())
-            .nickname(board.getUser().getNickName())
+            .user(userSimpWrapper.userSimpWrap(board.getUser()))
             .build();
     }
 
@@ -36,9 +36,7 @@ public class BoardWrapper {
             .createDate(board.getCreateDate())
             .isUpdate(board.isUpdate())
             .likeCount(0)
-            .userId(board.getUser().getId())
-            .thumbnailUser(board.getUser().getThumbnail())
-            .nickname(board.getUser().getNickName())
+            .user(userSimpWrapper.userSimpWrap(board.getUser()))
             .images(board.getBoardImages()
                 .stream()
                 .map(boardImage -> new ResponseBoardImage(boardImage.getId(), boardImage.getStoreName()))

@@ -27,15 +27,19 @@ public class ClubMethodInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         log.info("ClubMethodInterceptor 진입");
+        String method = request.getMethod();
 
+        // 클럽 조회는 누구든지 가능
+        if ("GET".equals(method)) {
+            return true;
+        }
         CustomUserDetails principal = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal.getUser().getRole() == Role.ADMIN) return true;
 
         long clubId = pathHelper.getClubId(request);
         log.info("clubId: {}", clubId);
 
-        String method = request.getMethod();
-        if ("GET".equals(method) || "POST".equals(method)) {
+        if ("POST".equals(method)) {
             return true;
         }
 

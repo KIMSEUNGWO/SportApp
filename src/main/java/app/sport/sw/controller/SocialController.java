@@ -40,7 +40,7 @@ public class SocialController {
     public ResponseEntity<Response> login(@RequestBody @Validated SocialLoginDto loginDto) {
 
         // Line API 에서 사용자 정보 검증 및 가져오기
-        LineProfile profile = tokenVerifer.getLineProfile(loginDto.getAccessToken());
+//        LineProfile profile = tokenVerifer.getLineProfile(loginDto.getAccessToken());
 
         // 로그인 또는 회원가입
         Optional<User> findUser = socialService.socialLogin(loginDto);
