@@ -1,9 +1,7 @@
 package app.sport.sw.controller;
 
 import app.sport.sw.dto.Response;
-import app.sport.sw.dto.ResponseData;
 import app.sport.sw.dto.club.ClubListView;
-import app.sport.sw.response.SuccessCode;
 import app.sport.sw.service.ClubService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +23,6 @@ public class MainController {
         List<Long> subList = clubIds.subList(0, Math.min(10, clubIds.size()));
         List<ClubListView> clubList = clubService.findByClubs(subList);
         System.out.println("clubList = " + clubList);
-        return ResponseEntity.ok(new ResponseData<>(SuccessCode.OK, clubList));
+        return Response.ok(clubList);
     }
 }

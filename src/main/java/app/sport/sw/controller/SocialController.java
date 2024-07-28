@@ -1,15 +1,12 @@
 package app.sport.sw.controller;
 
-import app.sport.sw.api.LineProfile;
 import app.sport.sw.component.AccessTokenVerifer;
 import app.sport.sw.component.JwtUtil;
 import app.sport.sw.component.SecurityUtil;
 import app.sport.sw.domain.user.User;
 import app.sport.sw.dto.Response;
-import app.sport.sw.dto.ResponseData;
 import app.sport.sw.dto.user.ResponseToken;
 import app.sport.sw.dto.user.SocialLoginDto;
-import app.sport.sw.response.SuccessCode;
 import app.sport.sw.response.UserCode;
 import app.sport.sw.service.SignupService;
 import app.sport.sw.service.SocialService;
@@ -45,9 +42,7 @@ public class SocialController {
         // 로그인 또는 회원가입
         Optional<User> findUser = socialService.socialLogin(loginDto);
 
-        if (findUser.isEmpty()) {
-            return ResponseEntity.ok(new Response(UserCode.REGISTER));
-        }
+        if (findUser.isEmpty()) return Response.ok(UserCode.REGISTER);
 
         User user = findUser.get();
 
@@ -55,7 +50,7 @@ public class SocialController {
 
         ResponseToken responseToken = jwtUtil.initToken(user);
 
-        return ResponseEntity.ok(new ResponseData<>(SuccessCode.OK, responseToken));
+        return Response.ok(responseToken);
     }
 
     @PostMapping("/token")

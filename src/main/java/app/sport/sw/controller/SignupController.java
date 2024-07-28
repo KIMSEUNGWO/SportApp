@@ -2,31 +2,21 @@ package app.sport.sw.controller;
 
 import app.sport.sw.api.LineProfile;
 import app.sport.sw.component.AccessTokenVerifer;
-import app.sport.sw.component.BindingField;
 import app.sport.sw.component.JwtUtil;
 import app.sport.sw.component.SecurityUtil;
 import app.sport.sw.domain.user.User;
 import app.sport.sw.dto.Response;
-import app.sport.sw.dto.ResponseData;
-import app.sport.sw.dto.user.CustomUserDetails;
 import app.sport.sw.dto.user.RegisterRequest;
 import app.sport.sw.dto.user.ResponseToken;
-import app.sport.sw.response.ClubError;
+import app.sport.sw.exception.BindingException;
 import app.sport.sw.service.SignupService;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
-
-import static app.sport.sw.response.SuccessCode.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -39,12 +29,8 @@ public class SignupController {
 
     @PostMapping("/register")
     public ResponseEntity<Response> register(@Validated @RequestBody RegisterRequest registerRequest,
-                                             BindingResult bindingResult
-                                             ) {
-        if (bindingResult.hasErrors()) {
-            List<String> fieldNames = BindingField.getFieldNames(bindingResult);
-            return ResponseEntity.badRequest().body(new ResponseData<>(ClubError.INVALID_DATA, fieldNames));
-        }
+                                             BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) throw new BindingException(bindingResult);
 
         // Line API 에서 사용자 정보 검증 및 가져오기
         LineProfile profile = tokenVerifer.getLineProfile(registerRequest.getAccessToken());
@@ -55,6 +41,6 @@ public class SignupController {
         ResponseToken responseToken = jwtUtil.initToken(register);
 
         System.out.println("responseToken = " + responseToken);
-        return ResponseEntity.ok(new ResponseData<>(OK, responseToken));
+        return Response.ok(responseToken);
     }
 }

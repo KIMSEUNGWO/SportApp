@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class ClubUserWrapper {
+public class UserClubWrapper {
 
     private final UserSimpWrapper userSimpWrapper;
 

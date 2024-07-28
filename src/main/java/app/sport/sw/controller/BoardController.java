@@ -1,6 +1,5 @@
 package app.sport.sw.controller;
 
-import app.sport.sw.component.BindingField;
 import app.sport.sw.component.file.FileService;
 import app.sport.sw.domain.BaseEntityImage;
 import app.sport.sw.dto.Response;
@@ -11,7 +10,7 @@ import app.sport.sw.dto.board.ResponseBoard;
 import app.sport.sw.dto.board.ResponseBoardDetail;
 import app.sport.sw.dto.user.CustomUserDetails;
 import app.sport.sw.enums.group.BoardType;
-import app.sport.sw.response.ClubError;
+import app.sport.sw.exception.BindingException;
 import app.sport.sw.response.SuccessCode;
 import app.sport.sw.service.BoardService;
 import lombok.RequiredArgsConstructor;
@@ -38,13 +37,10 @@ public class BoardController {
             @Validated @ModelAttribute BoardCreateRequest createRequest,
             BindingResult bindingResult) {
 
-        if (bindingResult.hasErrors()) {
-            List<String> fieldNames = BindingField.getFieldNames(bindingResult);
-            return ResponseEntity.badRequest().body(new ResponseData<>(ClubError.INVALID_DATA, fieldNames));
-        }
+        if (bindingResult.hasErrors()) throw new BindingException(bindingResult);
 
         boardService.createBoard(clubId, userDetails, createRequest);
-        return ResponseEntity.ok(new Response(SuccessCode.OK));
+        return Response.ok();
     }
 
     @GetMapping
@@ -58,20 +54,20 @@ public class BoardController {
     @GetMapping("/{boardId}")
     public ResponseEntity<Response> getBoardDetail(@PathVariable("boardId") long boardId) {
         ResponseBoardDetail boardDetail = boardService.getBoardDetail(boardId);
-        return ResponseEntity.ok(new ResponseData<>(SuccessCode.OK, boardDetail));
+        return Response.ok(boardDetail);
     }
 
     @PatchMapping("/{boardId}")
     public ResponseEntity<Response> editBoard(@PathVariable("boardId") long boardId,
                                               @ModelAttribute RequestBoardEdit requestBoardEdit) {
         boardService.editBoard(boardId, requestBoardEdit);
-        return ResponseEntity.ok(new Response(SuccessCode.OK));
+        return Response.ok();
     }
 
     @DeleteMapping("/{boardId}")
     public ResponseEntity<Response> deleteBoard(@PathVariable("boardId") long boardId) {
         List<? extends BaseEntityImage> baseEntityImages = boardService.deleteBoard(boardId);
         fileService.deleteImages(baseEntityImages);
-        return ResponseEntity.ok(new Response(SuccessCode.OK));
+        return Response.ok();
     }
 }

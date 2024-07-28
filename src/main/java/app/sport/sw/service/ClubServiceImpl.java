@@ -18,8 +18,8 @@ import app.sport.sw.repository.UserRepository;
 import app.sport.sw.response.ClubError;
 import app.sport.sw.exception.ClubException;
 import app.sport.sw.repository.ClubRepository;
-import app.sport.sw.wrappers.ClubToClubListViewWrapper;
-import app.sport.sw.wrappers.ClubUserWrapper;
+import app.sport.sw.wrappers.ClubWrapper;
+import app.sport.sw.wrappers.UserClubWrapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,27 +38,16 @@ public class ClubServiceImpl implements ClubService {
     private final UserClubRepository userClubRepository;
     private final FileService fileService;
 
-    private final ClubUserWrapper clubUserWrapper;
+    private final ClubWrapper clubWrapper;
+    private final UserClubWrapper userClubWrapper;
 
     @Transactional(readOnly = true)
     public DefaultClubInfo getClubData(long clubId, CustomUserDetails userDetails) {
         Club club = findByClubId(clubId);
-
         Optional<UserClub> findUserClub = userClubRepository.findByClubIdAndUserId(clubId, userDetails);
-        return DefaultClubInfo.builder()
-            .id(clubId)
-            .image(club.getClubImage().getStoreName())
-            .thumbnail(club.getClubImage().getThumbnailName())
-            .title(club.getTitle())
-            .intro(club.getIntro())
-            .sport(club.getSportType())
-            .region(club.getClubRegion().getRegion())
-            .personCount(club.getPersonCount())
-            .maxPerson(club.getLimitPerson())
-            .createDate(club.getCreateDate())
-            .authority(findUserClub.map(UserClub::getAuthority).orElse(null))
-            .build();
+        return clubWrapper.defaultClubInfoWrap(club, findUserClub);
     }
+
 
     @Override
     public synchronized long createClub(CustomUserDetails userDetails, ClubCreateRequest createRequest) {
@@ -95,8 +84,10 @@ public class ClubServiceImpl implements ClubService {
 
     @Override
     public List<ClubListView> findByClubs(List<Long> clubIds) {
-        List<Club> clubs = clubRepository.findAllByIds(clubIds);
-        return clubs.stream().map(ClubToClubListViewWrapper::wrapper).toList();
+        return clubRepository.findAllByIds(clubIds)
+            .stream()
+            .map(ClubWrapper::clubListViewWrapper)
+            .toList();
     }
 
     @Override
@@ -148,17 +139,17 @@ public class ClubServiceImpl implements ClubService {
     @Transactional(readOnly = true)
     @Override
     public List<ClubListView> getMyClubs(long userId) {
-        List<UserClub> myClubs = userClubRepository.findByUserId(userId);
-        return myClubs.stream()
-            .map(userClub -> ClubToClubListViewWrapper.wrapper(userClub.getClub()))
+        return userClubRepository.findByUserId(userId)
+            .stream()
+            .map(userClub -> ClubWrapper.clubListViewWrapper(userClub.getClub()))
             .toList();
     }
 
     @Override
     public List<ResponseClubUser> getClubUsers(long clubId) {
-        List<UserClub> userClubs = userClubRepository.findByClubId(clubId);
-        return userClubs.stream()
-            .map(clubUserWrapper::clubUserWrap)
+        return userClubRepository.findByClubId(clubId)
+            .stream()
+            .map(userClubWrapper::clubUserWrap)
             .sorted(new ResponseClubUser.Comparator())
             .toList();
     }
