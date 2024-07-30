@@ -16,8 +16,16 @@ import java.util.regex.Pattern;
 @Component
 public class InterceptorPathHelper {
 
-    public long getClubId(HttpServletRequest request) {
+
+    private String getDefaultUri(HttpServletRequest request) {
         String requestURI = request.getRequestURI();
+        if (requestURI.startsWith("/public")) {
+            requestURI = requestURI.substring("/public".length());
+        }
+        return requestURI;
+    }
+    public long getClubId(HttpServletRequest request) {
+        String requestURI = getDefaultUri(request);
         String replace = requestURI.replace("/club/", "");
         int index = replace.indexOf("/");
         if (index != -1) replace = replace.substring(0, index);
@@ -30,7 +38,7 @@ public class InterceptorPathHelper {
     }
 
     public long getBoardId(HttpServletRequest request) {
-        String requestURI = request.getRequestURI();
+        String requestURI = getDefaultUri(request);
         String replace = requestURI
                 .replaceAll("/club/\\d+/board/", "");
         int index = replace.indexOf("/");
@@ -44,7 +52,7 @@ public class InterceptorPathHelper {
     }
 
     public long getCommentId(HttpServletRequest request) {
-        String requestURI = request.getRequestURI();
+        String requestURI = getDefaultUri(request);
         String replace = requestURI
             .replaceAll("/club/\\d+/board/\\d+/comment/", "");
         int index = replace.indexOf("/");
@@ -58,7 +66,7 @@ public class InterceptorPathHelper {
     }
 
     public long getMeetingId(HttpServletRequest request) {
-        String requestURI = request.getRequestURI();
+        String requestURI = getDefaultUri(request);
         String replace = requestURI
             .replaceAll("/club/\\d+/meeting/", "");
         int index = replace.indexOf("/");

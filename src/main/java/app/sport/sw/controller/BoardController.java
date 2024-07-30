@@ -43,13 +43,6 @@ public class BoardController {
         return Response.ok();
     }
 
-    @GetMapping
-    public ResponseEntity<Response> getBoardList(@PathVariable("clubId") long clubId,
-                                                 @RequestParam(value = "boardType", required = false) String boardType,
-                                                 Pageable pageable) {
-        List<ResponseBoard> boardList = boardService.getBoardList(clubId, BoardType.fromJson(boardType), pageable);
-        return ResponseEntity.ok(new ResponseData<>(SuccessCode.OK, boardList));
-    }
 
     @GetMapping("/{boardId}")
     public ResponseEntity<Response> getBoardDetail(@PathVariable("boardId") long boardId) {

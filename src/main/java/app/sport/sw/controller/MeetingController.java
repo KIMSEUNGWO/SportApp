@@ -14,7 +14,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -23,13 +22,6 @@ public class MeetingController {
 
     private final MeetingService meetingService;
 
-    // 일정 리스트 조회
-    // 권한 필요없음. 비회원도 열람가능
-    @GetMapping
-    public ResponseEntity<Response> getMeetingList(@PathVariable("clubId") long clubId) {
-        List<ResponseMeetingView> meetingList = meetingService.findAllByClubIdAsMeetingView(clubId);
-        return Response.ok(meetingList);
-    }
 
     // 일정 생성
     // 매니저 이상 권한 필요

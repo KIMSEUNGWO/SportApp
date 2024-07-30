@@ -7,6 +7,7 @@ import app.sport.sw.interceptor.club.ClubJoinInterceptor;
 import app.sport.sw.interceptor.club.ClubMethodInterceptor;
 import app.sport.sw.interceptor.comment.CommentOwnerInterceptor;
 import app.sport.sw.interceptor.meeting.MeetingExistsInterceptor;
+import app.sport.sw.interceptor.meeting.MeetingMethodInterceptor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -26,15 +27,16 @@ public class InterceptorConfig implements WebMvcConfigurer {
     private final CommentOwnerInterceptor commentOwnerInterceptor;
 
     private final MeetingExistsInterceptor meetingExistsInterceptor;
+    private final MeetingMethodInterceptor meetingMethodInterceptor;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
+
         // 모임이 존재하는지 확인하는 인터셉터
         registry.addInterceptor(clubExistsInterceptor)
                 .order(1)
-                .addPathPatterns("/club/**")
+                .addPathPatterns("/club/**", "/public/club/**")
                 .excludePathPatterns("/club");
-
 
 
         // 클럽 조회, 생성, 수정, 삭제 메소드 인터셉터
@@ -46,14 +48,14 @@ public class InterceptorConfig implements WebMvcConfigurer {
         registry.addInterceptor(clubJoinInterceptor)
                 .order(3)
                 .addPathPatterns("/club/*/**")
-                .excludePathPatterns("/club/*", "/club/*/board", "/club/*/users");
+                .excludePathPatterns("/club/*");
 
 
 
         // 게시물이 존재하는지 확인하는 인터셉터
         registry.addInterceptor(boardExistsInterceptor)
                 .order(4)
-                .addPathPatterns("/club/*/board/**")
+                .addPathPatterns("/club/*/board/**", "/public/club/*/board")
                 .excludePathPatterns("/club/*/board", "/club/*/board/create");
 
         // 게시글 상세 조회, 수정, 삭제 권한 인터셉터
@@ -73,7 +75,12 @@ public class InterceptorConfig implements WebMvcConfigurer {
         // 일정이 존재하는지 확인하는 인터셉터
         registry.addInterceptor(meetingExistsInterceptor)
                 .order(7)
-                .addPathPatterns("/club/*/meeting/**")
+                .addPathPatterns("/club/*/meeting/**", "/public/club/*/meeting")
                 .excludePathPatterns("/club/*/meeting");
+
+        // 일정 생성, 수정, 삭제, 나가기 권한 인터셉터
+        registry.addInterceptor(meetingMethodInterceptor)
+                .order(8)
+                .addPathPatterns("/club/*/meeting/**");
     }
 }

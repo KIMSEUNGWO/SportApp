@@ -2,9 +2,7 @@ package app.sport.sw.filter;
 
 import app.sport.sw.component.JwtUtil;
 import app.sport.sw.component.SecurityUtil;
-import app.sport.sw.domain.group.Club;
 import app.sport.sw.dto.Response;
-import app.sport.sw.dto.user.CustomUserDetails;
 import app.sport.sw.exception.TokenException;
 import app.sport.sw.response.ResponseCode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -15,13 +13,11 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.regex.Pattern;
 
 @Component
 @RequiredArgsConstructor
@@ -37,13 +33,8 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         "/register",
         "/social/token",
         "/images/",
-        "/distinct/"
-    );
-    private final List<Pattern> excludePatterns = List.of(
-        Pattern.compile("^/club/[0-9]+$"), // CLUB_INFO_PATTERN
-        Pattern.compile("^/club/[0-9]+/users"),
-        Pattern.compile("^/club/[0-9]+/board"),
-        Pattern.compile("^/club/[0-9]+/meeting")
+        "/distinct/",
+        "/public/"
     );
 
     @Override
@@ -55,25 +46,12 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             checkAccessTokenValid(request);
             filterChain.doFilter(request, response);
         } catch (TokenException e) {
-            if (isExcludedPattern(request)) {
-                filterChain.doFilter(request, response);
-            } else {
-                e.printStackTrace();
-                System.out.println("TokenException 발생!! :" + e.getResponseCode());
-                setErrorResponse(response, e.getResponseCode());
-            }
+            e.printStackTrace();
+            System.out.println("TokenException 발생!! :" + e.getResponseCode());
+            setErrorResponse(response, e.getResponseCode());
         }
 
 
-    }
-
-    private boolean isExcludedPattern(HttpServletRequest request) {
-        String requestURI = request.getRequestURI();
-        String method = request.getMethod();
-        for (Pattern pattern : excludePatterns) {
-            if ("GET".equalsIgnoreCase(method) && pattern.matcher(requestURI).matches()) return true;
-        }
-        return false;
     }
 
     private void setErrorResponse(HttpServletResponse response, ResponseCode responseCode) {

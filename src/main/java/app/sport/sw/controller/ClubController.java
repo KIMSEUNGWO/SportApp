@@ -3,8 +3,6 @@ package app.sport.sw.controller;
 import app.sport.sw.dto.Response;
 import app.sport.sw.dto.club.ClubCreateRequest;
 import app.sport.sw.dto.club.ClubEditRequest;
-import app.sport.sw.dto.club.ResponseClubUser;
-import app.sport.sw.dto.club.DefaultClubInfo;
 import app.sport.sw.dto.user.CustomUserDetails;
 import app.sport.sw.exception.BindingException;
 import app.sport.sw.service.ClubService;
@@ -15,7 +13,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -34,13 +31,6 @@ public class ClubController {
 
         long clubId = clubService.createClub(userDetails, clubCreateRequest);
         return Response.ok(clubId);
-    }
-
-    @GetMapping("/{clubId}")
-    public ResponseEntity<Response> defaultGroupData(@PathVariable("clubId") long clubId,
-                                                     @AuthenticationPrincipal CustomUserDetails userDetails) {
-        DefaultClubInfo clubData = clubService.getClubData(clubId, userDetails);
-        return Response.ok(clubData);
     }
 
     @PatchMapping("/{clubId}")
@@ -67,13 +57,4 @@ public class ClubController {
         return Response.ok(clubId);
     }
 
-
-
-
-    @GetMapping("/{clubId}/users")
-    public ResponseEntity<Response> getClubUsers(@PathVariable("clubId") long clubId) {
-
-        List<ResponseClubUser> clubUsers = clubService.getClubUsers(clubId);
-        return Response.ok(clubUsers);
-    }
 }
