@@ -42,7 +42,8 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     private final List<Pattern> excludePatterns = List.of(
         Pattern.compile("^/club/[0-9]+$"), // CLUB_INFO_PATTERN
         Pattern.compile("^/club/[0-9]+/users"),
-        Pattern.compile("^/club/[0-9]+/board")
+        Pattern.compile("^/club/[0-9]+/board"),
+        Pattern.compile("^/club/[0-9]+/meeting")
     );
 
     @Override

@@ -6,6 +6,7 @@ import app.sport.sw.interceptor.club.ClubExistsInterceptor;
 import app.sport.sw.interceptor.club.ClubJoinInterceptor;
 import app.sport.sw.interceptor.club.ClubMethodInterceptor;
 import app.sport.sw.interceptor.comment.CommentOwnerInterceptor;
+import app.sport.sw.interceptor.meeting.MeetingExistsInterceptor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -23,6 +24,8 @@ public class InterceptorConfig implements WebMvcConfigurer {
     private final BoardMethodInterceptor boardMethodInterceptor;
 
     private final CommentOwnerInterceptor commentOwnerInterceptor;
+
+    private final MeetingExistsInterceptor meetingExistsInterceptor;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
@@ -65,5 +68,12 @@ public class InterceptorConfig implements WebMvcConfigurer {
                 .order(6)
                 .addPathPatterns("/club/*/board/*/comment/**")
                 .excludePathPatterns("/club/*/board/*/comment");
+
+
+        // 일정이 존재하는지 확인하는 인터셉터
+        registry.addInterceptor(meetingExistsInterceptor)
+                .order(7)
+                .addPathPatterns("/club/*/meeting/**")
+                .excludePathPatterns("/club/*/meeting");
     }
 }

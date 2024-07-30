@@ -54,13 +54,13 @@ public class SocialController {
     }
 
     @PostMapping("/token")
-    public ResponseEntity<ResponseToken> refreshingAccessToken(HttpServletRequest request) {
+    public ResponseEntity<Response> refreshingAccessToken(HttpServletRequest request) {
         String refreshToken = jwtUtil.extractTokenFromHeader(request);
         jwtUtil.validateRefreshToken(refreshToken);
 
         User user = socialService.getUserInfoByUsingRefreshToken(refreshToken);
         ResponseToken responseToken = jwtUtil.refreshingAccessToken(user, refreshToken);
-        return ResponseEntity.ok(responseToken);
+        return Response.ok(responseToken);
     }
 
 }

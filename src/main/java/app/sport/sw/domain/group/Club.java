@@ -2,6 +2,7 @@ package app.sport.sw.domain.group;
 
 import app.sport.sw.domain.BaseEntityTime;
 import app.sport.sw.domain.group.board.Board;
+import app.sport.sw.domain.meeting.Meeting;
 import app.sport.sw.domain.user.User;
 import app.sport.sw.domain.group.region.ClubRegion;
 import app.sport.sw.enums.ClubGrade;
@@ -44,24 +45,22 @@ public class Club extends BaseEntityTime {
     @JoinColumn(name = "USER_ID")
     private User owner;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "CLUB_IMAGE_ID")
     private ClubImage clubImage;
 
-    @OneToMany(mappedBy = "club", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "club", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UserClub> userClubList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "club")
+    @OneToMany(mappedBy = "club", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Board> clubBoardList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "club", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Meeting> meetingList = new ArrayList<>();
 
 
     public int getPersonCount() {
         return userClubList.size();
-    }
-
-    public void setLimitPerson(int limitPerson) {
-        if (getPersonCount() > limitPerson) throw new ClubException(ClubError.EXCEED_LIMIT_PERSON);
-        this.limitPerson = limitPerson;
     }
 
     public boolean isFull() {

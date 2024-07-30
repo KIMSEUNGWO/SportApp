@@ -4,6 +4,7 @@ import app.sport.sw.domain.BaseEntityTime;
 import app.sport.sw.domain.group.UserClub;
 import app.sport.sw.domain.group.board.Board;
 import app.sport.sw.domain.group.board.Comment;
+import app.sport.sw.domain.meeting.Meeting;
 import app.sport.sw.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
@@ -52,6 +53,9 @@ public class User extends BaseEntityTime {
 
     @OneToMany(mappedBy = "user")
     private List<Comment> comments = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<Meeting> meetingList = new ArrayList<>();
 
     public void setRefreshToken(String accessToken) {
         userSocial.setRefreshToken(accessToken);

@@ -72,8 +72,10 @@ public class BoardServiceImpl implements BoardService {
     @Transactional(readOnly = true)
     @Override
     public List<ResponseBoard> getBoardList(long clubId, BoardType boardType, Pageable pageable) {
-        List<Board> boards = boardRepository.findAllByClubIdAndBoardType(clubId, boardType, pageable);
-        return boards.stream().map(boardWrapper::boardWrap).toList();
+        return boardRepository.findAllByClubIdAndBoardType(clubId, boardType, pageable)
+            .stream()
+            .map(boardWrapper::boardWrap)
+            .toList();
     }
 
     @Transactional(readOnly = true)

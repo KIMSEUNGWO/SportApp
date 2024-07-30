@@ -2,8 +2,12 @@ package app.sport.sw.interceptor;
 
 import app.sport.sw.exception.BoardException;
 import app.sport.sw.exception.ClubException;
+import app.sport.sw.exception.CommentException;
+import app.sport.sw.exception.MeetingException;
 import app.sport.sw.response.BoardError;
 import app.sport.sw.response.ClubError;
+import app.sport.sw.response.CommentError;
+import app.sport.sw.response.MeetingError;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Component;
 
@@ -49,7 +53,21 @@ public class InterceptorPathHelper {
         try {
             return Long.parseLong(replace);
         } catch (NumberFormatException e) {
-            throw new BoardException(BoardError.BOARD_NOT_EXISTS);
+            throw new CommentException(CommentError.NOT_EXISTS_COMMENT);
+        }
+    }
+
+    public long getMeetingId(HttpServletRequest request) {
+        String requestURI = request.getRequestURI();
+        String replace = requestURI
+            .replaceAll("/club/\\d+/meeting/", "");
+        int index = replace.indexOf("/");
+        if (index != -1) replace = replace.substring(0, index);
+
+        try {
+            return Long.parseLong(replace);
+        } catch (NumberFormatException e) {
+            throw new MeetingException(MeetingError.MEETING_NOT_EXISTS);
         }
     }
 }
