@@ -12,10 +12,11 @@ import app.sport.sw.response.SuccessCode;
 import app.sport.sw.service.BoardService;
 import app.sport.sw.service.ClubService;
 import app.sport.sw.service.MeetingService;
+import app.sport.sw.service.PublicService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,11 +29,15 @@ public class PublicDataController {
     private final ClubService clubService;
     private final BoardService boardService;
     private final MeetingService meetingService;
+    private final PublicService publicService;
 
     @GetMapping("/{clubId}")
     public ResponseEntity<Response> defaultGroupData(@PathVariable("clubId") long clubId,
-                                                     @AuthenticationPrincipal CustomUserDetails userDetails) {
+                                                     HttpServletRequest request
+                                                     ) {
+        CustomUserDetails userDetails = publicService.getSecurityContextUserDetails(request);
         DefaultClubInfo clubData = clubService.getClubData(clubId, userDetails);
+        System.out.println("clubData = " + clubData);
         return Response.ok(clubData);
     }
 

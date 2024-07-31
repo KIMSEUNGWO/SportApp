@@ -55,7 +55,7 @@ public class InterceptorConfig implements WebMvcConfigurer {
         // 게시물이 존재하는지 확인하는 인터셉터
         registry.addInterceptor(boardExistsInterceptor)
                 .order(4)
-                .addPathPatterns("/club/*/board/**", "/public/club/*/board")
+                .addPathPatterns("/club/*/board/**")
                 .excludePathPatterns("/club/*/board", "/club/*/board/create");
 
         // 게시글 상세 조회, 수정, 삭제 권한 인터셉터
