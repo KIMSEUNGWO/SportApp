@@ -3,12 +3,13 @@ package app.sport.sw.service;
 import app.sport.sw.dto.meeting.RequestCreateMeeting;
 import app.sport.sw.dto.meeting.RequestEditMeeting;
 import app.sport.sw.dto.meeting.ResponseMeetingView;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
 public interface MeetingService {
 
-    List<ResponseMeetingView> findAllByClubIdAsMeetingView(long clubId);
+    List<ResponseMeetingView> findAllByClubIdAsMeetingView(long clubId, Pageable pageable);
 
     ResponseMeetingView findByMeetingIdAsMeetingView(long meetingId);
 

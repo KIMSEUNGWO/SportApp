@@ -67,4 +67,7 @@ public class Club extends BaseEntityTime {
         return limitPerson <= getPersonCount();
     }
 
+    public void exit(UserClub userClub) {
+        userClubList.remove(userClub);
+    }
 }

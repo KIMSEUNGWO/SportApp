@@ -39,4 +39,9 @@ public class UserClubRepository {
     public List<UserClub> findByClubId(long clubId) {
         return jpaUserClubRepository.findByClub_Id(clubId);
     }
+
+    public void delete(UserClub userClub) {
+        jpaUserClubRepository.delete(userClub);
+    }
+
 }

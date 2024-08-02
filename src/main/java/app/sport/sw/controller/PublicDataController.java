@@ -59,8 +59,10 @@ public class PublicDataController {
     // 일정 리스트 조회
     // 권한 필요없음. 비회원도 열람가능
     @GetMapping("/{clubId}/meeting")
-    public ResponseEntity<Response> getMeetingList(@PathVariable("clubId") long clubId) {
-        List<ResponseMeetingView> meetingList = meetingService.findAllByClubIdAsMeetingView(clubId);
+    public ResponseEntity<Response> getMeetingList(@PathVariable("clubId") long clubId,
+                                                   Pageable pageable
+                                                   ) {
+        List<ResponseMeetingView> meetingList = meetingService.findAllByClubIdAsMeetingView(clubId, pageable);
         return Response.ok(meetingList);
     }
 }

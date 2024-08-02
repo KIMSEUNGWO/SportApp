@@ -5,10 +5,7 @@ import app.sport.sw.domain.user.User;
 import app.sport.sw.enums.Authority;
 import app.sport.sw.enums.Role;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Table(name = "USER_CLUB")
@@ -17,6 +14,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UserClub extends BaseEntityTime {
 
+    @Getter
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "USER_CLUB_ID")
     private long id;
@@ -31,7 +29,7 @@ public class UserClub extends BaseEntityTime {
     @JoinColumn(name = "MEMBER_ID")
     private User user;
 
-    @Getter
+    @Getter @Setter
     @Enumerated(EnumType.STRING)
     private Authority authority;
 

@@ -23,4 +23,11 @@ public class RequestEditMeeting {
 
     @DateRange(month = 2)
     private LocalDateTime meetingDate;
+
+    // 주소
+    private String address;
+    // 위도
+    private Double lat;
+    // 경도
+    private Double lag;
 }

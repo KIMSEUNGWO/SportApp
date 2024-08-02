@@ -20,4 +20,6 @@ public interface ClubService {
     List<ClubListView> getMyClubs(long userId);
 
     List<ResponseClubUser> getClubUsers(long clubId);
+
+    void exitClub(long clubId, CustomUserDetails userDetails);
 }

@@ -30,5 +30,10 @@ public class ClubRepositoryDB implements ClubRepository {
         return jpaClubRepository.findAllById(clubIds);
     }
 
+    @Override
+    public void delete(Club club) {
+        jpaClubRepository.delete(club);
+    }
+
 
 }

@@ -1,6 +1,7 @@
 package app.sport.sw.dto;
 
 import app.sport.sw.response.ResponseCode;
+import app.sport.sw.response.SuccessCode;
 import lombok.Getter;
 import org.springframework.http.ResponseEntity;
 
@@ -15,8 +16,10 @@ public class Response {
         this.result = responseCode.getResult();
     }
 
+    private static final Response defaultResponse = new Response(SuccessCode.OK);
+
     public static ResponseEntity<Response> ok() {
-        return ResponseEntity.ok(new Response(OK));
+        return ResponseEntity.ok(defaultResponse);
     }
     public static ResponseEntity<Response> ok(ResponseCode responseCode) {
         return ResponseEntity.ok(new Response(responseCode));

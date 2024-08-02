@@ -7,6 +7,7 @@ import app.sport.sw.jparepository.JpaMeetingRepository;
 import app.sport.sw.jparepository.JpaMeetingUserRepository;
 import app.sport.sw.response.MeetingError;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -19,8 +20,8 @@ public class MeetingRepositoryImpl implements MeetingRepository {
     private final JpaMeetingUserRepository jpaMeetingUserRepository;
 
     @Override
-    public List<Meeting> findAllByClubId(long clubId) {
-        return jpaMeetingRepository.findAllByClub_Id(clubId);
+    public List<Meeting> findAllByClubId(long clubId, Pageable pageable) {
+        return jpaMeetingRepository.findAllByClub_IdOrderByMeetingDate(clubId, pageable);
     }
 
     @Override

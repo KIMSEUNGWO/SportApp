@@ -32,11 +32,13 @@ import java.util.Optional;
 @Transactional
 public class ClubServiceImpl implements ClubService {
 
+    private final FileService fileService;
+    private final AuthorityService authorityService;
+
     private final ClubRepository clubRepository;
     private final AuthorityUserChecker authorityUserChecker;
     private final UserRepository userRepository;
     private final UserClubRepository userClubRepository;
-    private final FileService fileService;
 
     private final ClubWrapper clubWrapper;
     private final UserClubWrapper userClubWrapper;
@@ -152,6 +154,28 @@ public class ClubServiceImpl implements ClubService {
             .map(userClubWrapper::clubUserWrap)
             .sorted(new ResponseClubUser.Comparator())
             .toList();
+    }
+
+    @Override
+    public void exitClub(long clubId, CustomUserDetails userDetails) {
+        UserClub userClub = userClubRepository.findByClubIdAndUserId(clubId, userDetails)
+            .orElseThrow(() -> new ClubException(ClubError.CLUB_NOT_JOIN_USER));
+
+        // 모임장인 경우
+        // 매니저에게 랜덤으로 위임 -> 없으면 일반회원에게 위임
+        // 위임할 회원이 없으면 위임 안함
+        authorityService.delegateClubOwner(userClub);
+
+        // 마지막 회원인 경우
+        // 모임 삭제
+        // 아닌 경우
+        // 모임 나가기
+        Club club = userClub.getClub();
+        if (club.getUserClubList().size() <= 1) {
+            clubRepository.delete(club);
+        } else {
+            club.exit(userClub);
+        }
     }
 
     private Club findByClubId(long clubId) {

@@ -23,5 +23,15 @@ public class RequestCreateMeeting {
     @DateRange(month = 2)
     private LocalDateTime meetingDate;
 
+    // 주소
+    @NotNull
+    private String address;
+    // 위도
+    @NotNull
+    private Double lat;
+    // 경도
+    @NotNull
+    private Double lag;
+
 
 }

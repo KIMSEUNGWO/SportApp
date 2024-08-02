@@ -57,4 +57,11 @@ public class ClubController {
         return Response.ok(clubId);
     }
 
+    @DeleteMapping("/{clubId}/exit")
+    public ResponseEntity<Response> exitClub(@PathVariable("clubId") long clubId,
+                                             @AuthenticationPrincipal CustomUserDetails userDetails) {
+        clubService.exitClub(clubId, userDetails);
+        return Response.ok();
+    }
+
 }

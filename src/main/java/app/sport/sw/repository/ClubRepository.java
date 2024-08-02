@@ -12,4 +12,6 @@ public interface ClubRepository {
     void save(Club saveClub);
 
     List<Club> findAllByIds(List<Long> clubIds);
+
+    void delete(Club club);
 }

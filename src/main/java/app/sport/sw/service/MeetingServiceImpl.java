@@ -17,6 +17,7 @@ import app.sport.sw.repository.UserRepository;
 import app.sport.sw.response.MeetingError;
 import app.sport.sw.wrappers.MeetingWrapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,8 +38,8 @@ public class MeetingServiceImpl implements MeetingService {
 
     @Transactional(readOnly = true)
     @Override
-    public List<ResponseMeetingView> findAllByClubIdAsMeetingView(long clubId) {
-        return meetingRepository.findAllByClubId(clubId)
+    public List<ResponseMeetingView> findAllByClubIdAsMeetingView(long clubId, Pageable pageable) {
+        return meetingRepository.findAllByClubId(clubId, pageable)
             .stream()
             .map(meetingWrapper::meetingListViewWrap)
             .toList();

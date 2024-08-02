@@ -36,6 +36,9 @@ public class Meeting extends BaseEntityTime {
     @Setter
     private String description;
 
+    @Embedded
+    @Getter
+    private Address address;
     @Setter
     private LocalDateTime meetingDate;
 
